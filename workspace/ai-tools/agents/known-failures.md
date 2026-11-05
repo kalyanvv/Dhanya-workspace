@@ -43,3 +43,8 @@ at the bottom (symptom, cause, fix) and mention it in your report.
 - Do not start servers or builds you do not need; stop the ones you start.
 - If the same fix fails twice, stop and report the blocker in plain words instead of looping.
 - Keep the final report short and in the requested shape.
+
+## Added by builders
+- **Parallel builders share one `dhanya_test` database.** Two integration runs at the same time give random failures ("table missing", files that cannot load). Run the full integration suite for only one worktree at a time (the lead says when), or give a test its own private database as IT-OPS-01 does. GitHub CI has its own database, so a green CI run is the final proof.
+- **Heredocs with many apostrophes** can break the Bash command. Write markdown files with the Write tool.
+- **Each parallel builder needs its own Postgres port** if it runs integration tests at the same time as another builder (shared port 5433 is dropped mid-run). Prefer running them one at a time.

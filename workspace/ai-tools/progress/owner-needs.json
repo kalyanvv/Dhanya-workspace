@@ -89,6 +89,46 @@
       "why": "Claude made Telugu captions and badges 10 percent larger, because they were too small. It is a default you may change",
       "how": "Open the component gallery with ?lang=te on your phone and tell Claude if the small labels are easy to read",
       "when": "Before story S10.1"
+    },
+    {
+      "id": "N-20",
+      "status": "open",
+      "title": "Try the mill sign-up on staging with your trial code",
+      "why": "Proves sign-up, the email and sign-in work end to end",
+      "how": "Open dhanya-staging.vercel.app/sign-up, use the access code Claude gave you in chat, confirm the email, sign in, open /mill/orders. Tell Claude what you see",
+      "when": "Now"
+    },
+    {
+      "id": "N-21",
+      "status": "open",
+      "title": "Run the autosave installer once (optional)",
+      "why": "Saves all work to GitHub every 20 minutes even when Claude is out of usage",
+      "how": "In PowerShell: powershell -ExecutionPolicy Bypass -File \"C:Users\rupenOneDriveDocumentsStaffingPersonalProjectsworkspaceai-toolsinstall-autosave.ps1\"",
+      "when": "Any time"
+    },
+    {
+      "id": "N-22",
+      "status": "open",
+      "title": "Backups: choose a key and switch them on (when ready)",
+      "why": "Encrypted nightly database backup (story S0.8). Off until you do this",
+      "how": "Pick a key of 16+ characters and keep a copy in your password manager. In GitHub (Dhanya-sandbox, Settings, Secrets) add BACKUP_ENCRYPTION_KEY and BACKUP_DATABASE_URL, and the variable BACKUP_ENABLED=true. Optionally UPTIME_ENABLED=true",
+      "when": "Before real data"
+    },
+    {
+      "id": "N-23",
+      "status": "open",
+      "title": "Answer the small product questions from S2.2, S2.3, S2.8",
+      "why": "Claude picked safe defaults; your answers can change them",
+      "how": "Read the owner-question lists in sandbox/docs/plan/decisions.md (S2.2, S2.3, S2.8): one login per business, one or several owners, access-code lifetime, failed sign-ins in the log, how long to keep audit rows",
+      "when": "Before the pilot"
+    },
+    {
+      "id": "N-24",
+      "status": "open",
+      "title": "Real-phone checks (later)",
+      "why": "Install-to-home-screen, keyboard, notches and slow networks cannot be fully tested by Claude",
+      "how": "When the shop and mill screens are ready, open the staging link on your phone and tell Claude what looks wrong",
+      "when": "Before the pilot"
     }
   ]
 }
