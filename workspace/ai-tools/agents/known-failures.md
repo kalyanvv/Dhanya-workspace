@@ -33,3 +33,13 @@ at the bottom (symptom, cause, fix) and mention it in your report.
 - Invoices/PDF come later. Money is integer paise; percentages in basis points; half-up rounding.
 - UI: apple-design skill for every screen, clarity checked, 170 kB gz first-load budget.
 - Report in plain layman language; diagram at the end only if it helps.
+
+## Do not waste tokens
+- Read only the part of a file you need (offset and limit, or Grep). Do not re-read a file you just edited.
+- Never print whole logs. Filter with grep/tail (for example `| tail -20`, or only lines with FAIL/Error).
+- Run the narrowest test first (one file or one test ID), the whole suite only once at the end.
+- Do not re-derive decisions already in `docs/plan/decisions.md`; follow them.
+- Do not re-run a failing command unchanged. Read the error, change something, then run.
+- Do not start servers or builds you do not need; stop the ones you start.
+- If the same fix fails twice, stop and report the blocker in plain words instead of looping.
+- Keep the final report short and in the requested shape.
