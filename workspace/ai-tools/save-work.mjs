@@ -9,7 +9,8 @@
 //    `backup/<branch>` in the same GitHub repo. It never touches the real branch, the index or
 //    the files, so it is safe to run while helpers are working.
 // 2. Our own tooling (agents, skills, connectors list, progress files, the progress panel mod,
-//    CLAUDE.md, Claude's memory notes) is copied onto the branch backup/tooling of the private sandbox repo.
+//    AGENTS.md, shared context and small Claude memory notes) is copied onto main in the separate
+//    private Dhanya-workspace repo. Generated Codex skill projections are rebuilt from their sources.
 //
 // Secrets: the real .env file is never copied. Every snapshot is scanned for token-looking
 // text first, and anything that looks like a secret stops that push.
@@ -144,6 +145,14 @@ function copyTree(from, to, filter) {
 
 function backupTooling() {
   try {
+    // Refresh the small cross-harness memory notes before copying tooling. Raw transcripts,
+    // Codex authentication files and the real .env file are never included.
+    const contextSync = join(workspace, 'ai-tools', 'sync-claude-context.py');
+    if (existsSync(contextSync)) {
+      execFileSync(process.platform === 'win32' ? 'py' : 'python3',
+        process.platform === 'win32' ? ['-3.11', contextSync] : [contextSync],
+        { stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true });
+    }
     const dest = backupClone;
     if (!existsSync(join(dest, '.git'))) {
       // A small separate repo on this PC whose only branch is backup/tooling in the existing
@@ -165,12 +174,12 @@ function backupTooling() {
 
     // Workspace files.
     mkdirSync(join(dest, 'workspace'), { recursive: true });
-    for (const file of ['CLAUDE.md', '.mcp.json']) {
+    for (const file of ['CLAUDE.md', 'AGENTS.md', '.mcp.json']) {
       if (existsSync(join(workspace, file))) cpSync(join(workspace, file), join(dest, 'workspace', file));
     }
     // Our own tooling only. The big third-party clones are re-cloned from THIRD-PARTY.md.
     const aiTools = join(workspace, 'ai-tools');
-    const ours = ['agents', 'skills', 'mcps', 'progress'];
+    const ours = ['agents', 'skills', 'mcps', 'progress', 'context', 'codex-runtime'];
     for (const dir of ours) copyTree(join(aiTools, dir), join(dest, 'workspace', 'ai-tools', dir), skip);
     mkdirSync(join(dest, 'workspace', 'ai-tools'), { recursive: true });
     for (const entry of readdirSync(aiTools)) {

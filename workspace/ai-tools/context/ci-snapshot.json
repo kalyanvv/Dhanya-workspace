@@ -1,0 +1,176 @@
+{
+  "observedAt": "2026-11-05T16:34:14.203Z",
+  "repository": "kalyanvv/Dhanya-sandbox",
+  "defaultBranch": "main",
+  "defaultBranchSha": "c4adf953cb4f6124e3685835bc6f59703981782c",
+  "workflows": [
+    "ci.yml",
+    "deploy-staging.yml",
+    "nightly.yml",
+    "pr-title.yml"
+  ],
+  "runs": [
+    {
+      "conclusion": "skipped",
+      "createdAt": "2026-11-05T16:23:56Z",
+      "headBranch": "main",
+      "headSha": "c4adf953cb4f6124e3685835bc6f59703981782c",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42064013548",
+      "workflowName": "Deploy staging"
+    },
+    {
+      "conclusion": "cancelled",
+      "createdAt": "2026-11-05T16:06:34Z",
+      "headBranch": "main",
+      "headSha": "c4adf953cb4f6124e3685835bc6f59703981782c",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42061332477",
+      "workflowName": "CI"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:53:53Z",
+      "headBranch": "feat/s1-4-app-shell",
+      "headSha": "afd55247d1601f065167c5f0043a9039be2e16d0",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42059621173",
+      "workflowName": "PR title"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:53:53Z",
+      "headBranch": "feat/s1-4-app-shell",
+      "headSha": "afd55247d1601f065167c5f0043a9039be2e16d0",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42059620921",
+      "workflowName": "CI"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:44:39Z",
+      "headBranch": "main",
+      "headSha": "c0eee77b1bc3236ad586852b5f8ee59f945e3a33",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42058062453",
+      "workflowName": "Deploy staging"
+    },
+    {
+      "conclusion": "failure",
+      "createdAt": "2026-11-05T15:39:41Z",
+      "headBranch": "feat/s1-4-app-shell",
+      "headSha": "0b647713ca72d383f2655879ef1e835cb61a4c13",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42057223770",
+      "workflowName": "CI"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:39:41Z",
+      "headBranch": "feat/s1-4-app-shell",
+      "headSha": "0b647713ca72d383f2655879ef1e835cb61a4c13",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42057223756",
+      "workflowName": "PR title"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:35:39Z",
+      "headBranch": "main",
+      "headSha": "c0eee77b1bc3236ad586852b5f8ee59f945e3a33",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42056549743",
+      "workflowName": "CI"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:29:22Z",
+      "headBranch": "main",
+      "headSha": "18114df03d2bfa0067c269b4976cac11f08c65c4",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42055472333",
+      "workflowName": "Deploy staging"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:26:58Z",
+      "headBranch": "feat/s1-7-installable",
+      "headSha": "650431ab5d13a3e249fcbf8b5ccd2406478d7dad",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42055077000",
+      "workflowName": "CI"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:26:58Z",
+      "headBranch": "feat/s1-7-installable",
+      "headSha": "650431ab5d13a3e249fcbf8b5ccd2406478d7dad",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42055076722",
+      "workflowName": "PR title"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:22:37Z",
+      "headBranch": "main",
+      "headSha": "18114df03d2bfa0067c269b4976cac11f08c65c4",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42054342142",
+      "workflowName": "CI"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:13:09Z",
+      "headBranch": "feat/s2-2-context",
+      "headSha": "b96a31b7dbe8f9fe1a2fd8da008a822c63c88623",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42052715632",
+      "workflowName": "PR title"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:13:08Z",
+      "headBranch": "feat/s2-2-context",
+      "headSha": "b96a31b7dbe8f9fe1a2fd8da008a822c63c88623",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42052715591",
+      "workflowName": "CI"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T15:09:18Z",
+      "headBranch": "main",
+      "headSha": "b9b099bd9dba6c3c3b09f62ee662bbc36b1ed7de",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42052056558",
+      "workflowName": "Deploy staging"
+    }
+  ],
+  "nightly": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-11-05T13:20:36Z",
+      "headSha": "d42cc78d6a1b49ad9b0e27d065d9a9bb54ada4da",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42034921270"
+    },
+    {
+      "conclusion": "failure",
+      "createdAt": "2026-11-05T07:56:28Z",
+      "headSha": "a6095c36f7c5b93a1553a7a62d655ee7fa030a93",
+      "status": "completed",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/41990749934"
+    }
+  ],
+  "openPullRequests": [
+    {
+      "headRefName": "dependabot/npm_and_yarn/multi-b134620c3e",
+      "isDraft": false,
+      "number": 21,
+      "title": "chore(deps): Bump glob and @sentry/node",
+      "url": "https://github.com/kalyanvv/Dhanya-sandbox/pull/21"
+    }
+  ],
+  "dependabotSecurityUpdates": true,
+  "limits": "Read-only snapshot. A green run applies only to its recorded commit; skipped/cancelled runs do not establish deployment success."
+}

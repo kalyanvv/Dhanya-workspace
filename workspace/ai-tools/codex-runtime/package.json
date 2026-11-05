@@ -1,0 +1,16 @@
+{
+  "name": "dhanya-codex-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pinned local runtime for Dhanya's Codex MCP connections. Credentials remain in ~/.dhanya/.env.",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@playwright/mcp": "0.0.84",
+    "@upstash/context7-mcp": "4.5.0",
+    "@bytebase/dbhub": "1.5.1",
+    "chrome-devtools-mcp": "1.12.0",
+    "mcp-remote": "0.16.0",
+    "next-devtools-mcp": "0.4.0"
+  }
+}

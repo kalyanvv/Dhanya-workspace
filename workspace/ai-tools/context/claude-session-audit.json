@@ -1,0 +1,182 @@
+{
+  "observed_at": "2026-11-05T16:27:20.105010+00:00",
+  "source_directory": "C:\\Users\\rupen\\.claude\\projects\\c--Users-rupen-OneDrive-Documents-Staffing-Personal-Projects",
+  "transcript_files": 29,
+  "records_read": 14788,
+  "invalid_records": 0,
+  "first_event": "2026-11-05T02:34:27.346Z",
+  "last_event": "2026-11-05T16:13:48.565Z",
+  "tools": {
+    "Bash": 1711,
+    "Write": 349,
+    "Read": 337,
+    "Edit": 241,
+    "Monitor": 172,
+    "PowerShell": 47,
+    "WebSearch": 44,
+    "SubagentHandback": 40,
+    "SendMessage": 32,
+    "Agent": 30,
+    "Artifact": 11,
+    "Grep": 10,
+    "ToolSearch": 7,
+    "TaskStop": 7,
+    "AskUserQuestion": 7,
+    "WebFetch": 6,
+    "Skill": 5,
+    "ListAgents": 5
+  },
+  "skills_invoked": {
+    "karpathy-guidelines": 2,
+    "anthropic-skills:skill-creator": 2,
+    "plugin-authoring": 1
+  },
+  "skills_read": {
+    "karpathy-guidelines": 10,
+    "apple-design": 9,
+    "dhanya-e2e": 4,
+    "frontend-a11y": 2
+  },
+  "agent_types": {
+    "general-purpose": 23,
+    "web-fetch": 3,
+    "fork": 2,
+    "dhanya-builder": 1
+  },
+  "agent_models": {
+    "sonnet": 18,
+    "haiku": 6
+  },
+  "message_models": {
+    "claude-sonnet-5-5": 3335,
+    "claude-haiku-5-5": 1256,
+    "claude-opus-5-5": 104
+  },
+  "npm_scripts": {
+    "check": 120,
+    "build": 62,
+    "test:unit:tz": 58,
+    "size": 27,
+    "coverage": 27,
+    "test:integration": 26,
+    "test:visual": 24,
+    "check:all": 16,
+    "test:visual:update": 16,
+    "db:migrate": 11,
+    "lighthouse": 11,
+    "test:a11y": 10,
+    "test:e2e": 9,
+    "test:e2e:smoke": 9,
+    "db:up": 8,
+    "lint": 8,
+    "test:unit": 7,
+    "typecheck": 6,
+    "tokens:check": 6,
+    "db:status": 4,
+    "deps": 4,
+    "i18n:check": 3,
+    "test:visual:update.": 3,
+    "db:generate": 2,
+    "format:check": 2,
+    "raw-colours:check": 2,
+    "ci:usage": 2,
+    "db:reset:dev": 1,
+    "db:down": 1,
+    "dev": 1,
+    "start": 1,
+    "format": 1,
+    "tokens:check.": 1,
+    "prepare": 1,
+    "ci:usage:": 1,
+    "db:create-app-role": 1,
+    "db:migrate.": 1
+  },
+  "subagent_roles": {
+    "general-purpose": 24,
+    "web-fetch": 3,
+    "fork": 1
+  },
+  "docs_read_via_read_tool": {
+    "plan/00-START-HERE.md": 7,
+    "plan/sprint-status.yaml": 6,
+    "plan/02-architecture-spine.md": 4,
+    "plan/decisions.md": 2,
+    "plan/05-test-strategy.md": 2,
+    "plan/reviews/S1.3-apple-design-review.md": 1,
+    "runbooks/ci.md": 1,
+    "runbooks/deploy.md": 1
+  },
+  "settings": {
+    "user": {
+      "keys": [
+        "agentPushNotifEnabled",
+        "model"
+      ],
+      "model": "sonnet",
+      "configured_hook_events": [],
+      "enabled_plugin_names": []
+    },
+    "project": {
+      "keys": [
+        "includeCoAuthoredBy"
+      ],
+      "model": null,
+      "configured_hook_events": [],
+      "enabled_plugin_names": []
+    }
+  },
+  "installed_skill_frontmatter_fields": {
+    "name": 348,
+    "description": 348,
+    "metadata": 285,
+    "tools": 11,
+    "license": 20,
+    "origin": 9,
+    "homepage": 8,
+    "author": 5,
+    "repo": 1,
+    "argument-hint": 3,
+    "allowed-tools": 2,
+    "tags": 3,
+    "category": 3
+  },
+  "skills_with_claude_substitutions": {
+    "autonomous-loops": [
+      "$ARGUMENTS",
+      "${CLAUDE_PLUGIN_ROOT"
+    ],
+    "ck": [
+      "${CLAUDE_SKILL_DIR}"
+    ],
+    "configure-ecc": [
+      "$CLAUDE_PLUGIN_ROOT"
+    ],
+    "continuous-learning-v2": [
+      "${CLAUDE_PLUGIN_ROOT}"
+    ],
+    "dmux-workflows": [
+      "${CLAUDE_PLUGIN_ROOT"
+    ],
+    "plan-canvas": [
+      "$CLAUDE_PLUGIN_ROOT"
+    ],
+    "skill-host-compat": [
+      "$ARGUMENTS",
+      "${CLAUDE_PLUGIN_ROOT}",
+      "${CLAUDE_PROJECT_DIR}",
+      "${CLAUDE_SESSION_ID}",
+      "${CLAUDE_SKILL_DIR}"
+    ],
+    "tdd-workflow": [
+      "${CLAUDE_PLUGIN_ROOT"
+    ],
+    "videodb": [
+      "${CLAUDE_SKILL_DIR}"
+    ]
+  },
+  "limits": [
+    "Counts are tool-call evidence, not proof of completion.",
+    "Shell reads and compacted/deleted transcript content can make skill-read counts incomplete.",
+    "Raw messages, tool arguments, outputs and credential values are not exported."
+  ]
+}

@@ -1,0 +1,6 @@
+- [Plain-language explanations](plain-language-explanations.md) — always explain in simplest layman terms, diagram at the end if useful
+- [Dhanya project](dhanya-project.md) — rice ordering app; repos, workspace layout, plan on Opus then build on cheaper models
+- [UI uses apple-design skill](ui-uses-apple-design-skill.md) — every screen and key UI element built and reviewed with apple-design, clarity checked
+- [Save work before the limit](save-work-before-limit.md) — run ai-tools/save-work.mjs often so nothing is lost when the 5-hour limit hits
+- [Build first, review in batches](build-first-review-in-batches.md) — finish building, merge on green checks; deep independent reviews at the end of each area
+- [Skip Telugu for now](skip-telugu-for-now.md) — English only until the owner says otherwise
