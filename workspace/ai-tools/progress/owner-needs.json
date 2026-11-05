@@ -1,0 +1,94 @@
+{
+  "_note": "What the owner needs to do or decide. The Dhanya progress panel reads this file. Claude keeps it up to date. status is 'open' or 'done'. 'when' says what it blocks. Never put secrets here.",
+  "updated": "2026-11-05",
+  "items": [
+    {
+      "id": "N-01",
+      "status": "done",
+      "title": "Restart VS Code (done) and keep Docker updated (done)",
+      "why": "Loads the new connectors, agents and the Karpathy skill",
+      "how": "Close VS Code and reopen it on the workspace folder, then click Allow when asked about connectors",
+      "when": "When Claude says the current work is finished"
+    },
+    {
+      "id": "N-02",
+      "status": "done",
+      "title": "Brevo sending key (saved and tested)",
+      "why": "The app needs it to send sign-up and password emails. The connector token can't do that",
+      "how": "Brevo: Account, SMTP & API, API Keys, Generate a new API key (leave the MCP box unticked). Paste it after BREVO_API_KEY= in the secrets file",
+      "when": "Before story S2.1 (sign-in)"
+    },
+    {
+      "id": "N-03",
+      "status": "done",
+      "title": "Pricing questions answered (Claude picked the defaults, recorded in decisions.md)",
+      "why": "The pricing review raised questions, such as whether the 10,000-bag limit is per line or per order",
+      "how": "Read the S3.2 section in sandbox/docs/plan/decisions.md and tell Claude your answers",
+      "when": "Before stories S3.4 and S3.5"
+    },
+    {
+      "id": "N-04",
+      "status": "done",
+      "title": "Transport range measured by total bags (confirmed)",
+      "why": "The plan assumes total bags (free from 10 to 100 bags, otherwise a fee). Orders and the mill settings screen depend on it",
+      "how": "Reply yes, or say if you meant order value or distance",
+      "when": "Before story S3.5"
+    },
+    {
+      "id": "N-05",
+      "status": "done",
+      "title": "GST and invoices: build a normal invoice now, full GST and accountant later (decided)",
+      "why": "Tax rate on rice by bag size (including bags above 25 kg), tax invoice or bill of supply, e-invoice rules above 5 crore turnover, and how long to keep records",
+      "how": "Take the D-08 questions from sandbox/docs/plan/00-START-HERE.md to your accountant and send Claude the answers",
+      "when": "Before story S9.1 (invoices) and launch"
+    },
+    {
+      "id": "N-06",
+      "status": "done",
+      "title": "Telugu checker (deferred to a later phase by the owner)",
+      "why": "Claude drafts the Telugu text but can't judge it. A native reader must check it, and the PDF letter shapes too",
+      "how": "Name a person, or say you will do it. Drafts are listed in messages/te.review.md",
+      "when": "Before story S10.1"
+    },
+    {
+      "id": "N-07",
+      "status": "done",
+      "title": "Hosting: stay on the free plan for now (decided; revisit when the idea works out)",
+      "why": "Vercel's free plan is for personal, non-commercial use. Real mills taking real orders may break its terms",
+      "how": "Choose: pay about US$20 a month for Vercel Pro, or move to another host. Claude can compare options",
+      "when": "Before the first real mill (story S11.2)"
+    },
+    {
+      "id": "N-08",
+      "status": "done",
+      "title": "GitHub tokens: keep using them for now (decided)",
+      "why": "Two tokens were pasted into chat and the release pipeline uses a broad copy. They should be narrow and fresh",
+      "how": "Delete both old tokens on GitHub, then create one fine-grained token for the Dhanya repo only (steps in sandbox/docs/runbooks/accounts.md)",
+      "when": "Before launch"
+    },
+    {
+      "id": "N-09",
+      "status": "done",
+      "title": "Free web address chosen: dhanyamart1.vercel.app (attached to the production project)",
+      "why": "Real domains cost money. A free address from Vercel ends in .vercel.app. dhanya.vercel.app is already taken",
+      "how": "Choose one, for example dhanyamart.vercel.app, and tell Claude. Claude will attach it to the production project",
+      "when": "Before the first real mill"
+    },
+    {
+      "id": "N-10",
+      "status": "done",
+      "title": "Staging site seen: the Dhanya page works",
+      "why": "Nobody has judged the look yet. Automated checks can't tell you if it feels right",
+      "how": "Open https://dhanya-staging.vercel.app on your phone and follow the short guide Claude gave in chat",
+      "when": "Whenever convenient"
+    },
+    {
+      "id": "N-11",
+      "status": "done",
+      "title": "Telugu badge size (deferred with Telugu)",
+      "why": "Claude made Telugu captions and badges 10 percent larger, because they were too small. It is a default you may change",
+      "how": "Open the component gallery with ?lang=te on your phone and tell Claude if the small labels are easy to read",
+      "when": "Before story S10.1"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "playwright": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp@0.0.84",
+        "--browser",
+        "chrome",
+        "--isolated",
+        "--output-dir",
+        ".playwright-mcp"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "chrome-devtools-mcp@1.12.0",
+        "--isolated",
+        "--no-usage-statistics",
+        "--no-performance-crux"
+      ]
+    },
+    "context7": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@4.5.0"
+      ]
+    },
+    "next-devtools": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "next-devtools-mcp@0.4.0"
+      ],
+      "env": {
+        "NEXT_TELEMETRY_DISABLED": "1"
+      }
+    },
+    "Neon": {
+      "type": "http",
+      "url": "https://mcp.neon.tech/mcp?readonly=true"
+    },
+    "brevo-senders": {
+      "type": "http",
+      "url": "https://mcp.brevo.com/v1/brevo_senders/mcp",
+      "headers": {
+        "Authorization": "Bearer ${BREVO_MCP_TOKEN}"
+      }
+    },
+    "brevo-templates": {
+      "type": "http",
+      "url": "https://mcp.brevo.com/v1/brevo_transac_templates/mcp",
+      "headers": {
+        "Authorization": "Bearer ${BREVO_MCP_TOKEN}"
+      }
+    },
+    "brevo-domains": {
+      "type": "http",
+      "url": "https://mcp.brevo.com/v1/brevo_domains/mcp",
+      "headers": {
+        "Authorization": "Bearer ${BREVO_MCP_TOKEN}"
+      }
+    },
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?read_only=true",
+      "headers": {
+        "Authorization": "Bearer ${SUPABASE_ACCESS_TOKEN}"
+      }
+    },
+    "postgres-dev": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@bytebase/dbhub@1.5.1",
+        "--transport",
+        "stdio",
+        "--dsn",
+        "${DHANYA_DEV_READONLY_URL:-postgres://dhanya_readonly:dhanya_readonly@localhost:5433/dhanya_dev?sslmode=disable}"
+      ]
+    },
+    "vercel": {
+      "type": "http",
+      "url": "https://mcp.vercel.com"
+    }
+  }
+}

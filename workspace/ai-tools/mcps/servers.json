@@ -1,0 +1,164 @@
+{
+  "_note": "Source of truth for Dhanya's MCP connectors. Edit this file, then run: node ai-tools/install.mjs. Never put secrets here; use ${ENV_VAR}. On Windows, local servers start through 'cmd /c npx'.",
+  "servers": {
+    "github": {
+      "enabled": true,
+      "purpose": "Repos, pull requests, issues, Actions runs",
+      "config": {
+        "type": "http",
+        "url": "https://api.githubcopilot.com/mcp/",
+        "headers": {
+          "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
+        }
+      }
+    },
+    "playwright": {
+      "enabled": true,
+      "purpose": "Drive a real browser: try a flow by hand before writing a test, check a screen, debug a failing test",
+      "config": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@playwright/mcp@0.0.84",
+          "--browser",
+          "chrome",
+          "--isolated",
+          "--output-dir",
+          ".playwright-mcp"
+        ]
+      }
+    },
+    "chrome-devtools": {
+      "enabled": true,
+      "purpose": "Speed checks, network and console inspection for the performance story",
+      "config": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "chrome-devtools-mcp@1.12.0",
+          "--isolated",
+          "--no-usage-statistics",
+          "--no-performance-crux"
+        ]
+      }
+    },
+    "context7": {
+      "enabled": true,
+      "purpose": "Current library documentation, so cheaper models don't code from out-of-date memory",
+      "config": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@upstash/context7-mcp@4.5.0"
+        ]
+      }
+    },
+    "next-devtools": {
+      "enabled": true,
+      "purpose": "Next.js documentation and errors from the running dev server",
+      "config": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "next-devtools-mcp@0.4.0"
+        ],
+        "env": {
+          "NEXT_TELEMETRY_DISABLED": "1"
+        }
+      }
+    },
+    "Neon": {
+      "enabled": true,
+      "purpose": "Read-only look at Neon projects and databases. Signs in through the browser (OAuth); no key is stored. To allow changes, remove ?readonly=true and run node ai-tools/install.mjs",
+      "config": {
+        "type": "http",
+        "url": "https://mcp.neon.tech/mcp?readonly=true"
+      }
+    },
+    "brevo-senders": {
+      "enabled": true,
+      "purpose": "Brevo email: sender addresses. Token is read from the Windows variable BREVO_MCP_TOKEN",
+      "config": {
+        "type": "http",
+        "url": "https://mcp.brevo.com/v1/brevo_senders/mcp",
+        "headers": {
+          "Authorization": "Bearer ${BREVO_MCP_TOKEN}"
+        }
+      }
+    },
+    "brevo-templates": {
+      "enabled": true,
+      "purpose": "Brevo email: transactional email templates. Token is read from the Windows variable BREVO_MCP_TOKEN",
+      "config": {
+        "type": "http",
+        "url": "https://mcp.brevo.com/v1/brevo_transac_templates/mcp",
+        "headers": {
+          "Authorization": "Bearer ${BREVO_MCP_TOKEN}"
+        }
+      }
+    },
+    "brevo-domains": {
+      "enabled": true,
+      "purpose": "Brevo email: sending domains. Token is read from the Windows variable BREVO_MCP_TOKEN",
+      "config": {
+        "type": "http",
+        "url": "https://mcp.brevo.com/v1/brevo_domains/mcp",
+        "headers": {
+          "Authorization": "Bearer ${BREVO_MCP_TOKEN}"
+        }
+      }
+    },
+    "supabase": {
+      "enabled": true,
+      "purpose": "Read-only look at Supabase projects. Not used by the plan (the database is Neon); here because the owner asked. Token is read from the Windows variable SUPABASE_ACCESS_TOKEN",
+      "config": {
+        "type": "http",
+        "url": "https://mcp.supabase.com/mcp?read_only=true",
+        "headers": {
+          "Authorization": "Bearer ${SUPABASE_ACCESS_TOKEN}"
+        }
+      }
+    },
+    "postgres-dev": {
+      "enabled": true,
+      "enable_at": "S0.3, once the local database and its read-only role exist",
+      "purpose": "Look at the LOCAL development database (Docker, port 5433). Uses a read-only database login, so it can't change data",
+      "config": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@bytebase/dbhub@1.5.1",
+          "--transport",
+          "stdio",
+          "--dsn",
+          "${DHANYA_DEV_READONLY_URL:-postgres://dhanya_readonly:dhanya_readonly@localhost:5433/dhanya_dev?sslmode=disable}"
+        ]
+      }
+    },
+    "vercel": {
+      "enabled": true,
+      "purpose": "Check deploys, logs and projects. Signs in through the browser (OAuth), no token stored",
+      "config": {
+        "type": "http",
+        "url": "https://mcp.vercel.com"
+      }
+    }
+  },
+  "left_out_on_purpose": {
+    "selenium": "Playwright already covers real browsers, phone sizes and Safari's engine. Two tools would mean maintaining every test twice",
+    "neon": "Left out until 2026-11-04. Now added read-only by the owner request. Never allow write access against the production project",
+    "server-postgres": "The official package is archived and unmaintained",
+    "filesystem, git": "Claude Code already does these",
+    "sentry": "Skipped by the owner on 2026-11-04. Can be added later: a free account plus an entry for https://mcp.sentry.dev/mcp"
+  }
+}

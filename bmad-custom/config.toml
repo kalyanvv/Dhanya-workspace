@@ -1,0 +1,9 @@
+# Dhanya project overrides. Never touched by the BMad installer.
+[core]
+user_name = "Rupendra"
+project_name = "Dhanya"
+
+[modules.bmm]
+planning_artifacts = "{project-root}/sandbox/docs/plan"
+implementation_artifacts = "{project-root}/sandbox/docs/stories"
+project_knowledge = "{project-root}/sandbox/docs"

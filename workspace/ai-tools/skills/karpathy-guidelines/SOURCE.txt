@@ -1,0 +1,1 @@
+Source: https://github.com/multica-ai/andrej-karpathy-skills (MIT), commit 2c60614. Copied as is; update by re-copying skills/karpathy-guidelines/SKILL.md.

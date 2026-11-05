@@ -1,0 +1,30 @@
+{
+  "name": "dhanya-progress",
+  "version": "0.1.0",
+  "description": "A pane beside the chat that shows what is done, in progress, blocked and what you need to do for the Dhanya project",
+  "author": {
+    "name": "Dhanya project"
+  },
+  "license": "MIT",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "refreshSeconds": {
+      "type": "number",
+      "title": "Refresh every (seconds)",
+      "description": "How often the Dhanya progress pane re-reads its two files. The Refresh button reads them at once.",
+      "default": 20
+    },
+    "sprintFile": {
+      "type": "string",
+      "title": "Progress tracker file",
+      "description": "The sprint-status.yaml file that lists every step and its status.",
+      "default": "C:/Users/rupen/OneDrive/Documents/Staffing/Personal/Projects/workspace/sandbox/docs/plan/sprint-status.yaml"
+    },
+    "needsFile": {
+      "type": "string",
+      "title": "What-you-need file",
+      "description": "The owner-needs.json file that lists what the owner needs to do or decide.",
+      "default": "C:/Users/rupen/OneDrive/Documents/Staffing/Personal/Projects/workspace/ai-tools/progress/owner-needs.json"
+    }
+  }
+}
