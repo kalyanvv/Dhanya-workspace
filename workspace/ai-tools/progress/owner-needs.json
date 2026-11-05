@@ -92,7 +92,7 @@
     },
     {
       "id": "N-20",
-      "status": "open",
+      "status": "done",
       "title": "Try the mill sign-up on staging with your trial code",
       "why": "Proves sign-up, the email and sign-in work end to end",
       "how": "Open dhanya-staging.vercel.app/sign-up, use the access code Claude gave you in chat, confirm the email, sign in, open /mill/orders. Tell Claude what you see",

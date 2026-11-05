@@ -7,7 +7,7 @@ skills:
   - karpathy-guidelines
 ---
 
-**First, read `ai-tools/agents/known-failures.md`** (in the workspace folder). It lists failures already solved, so do not spend tokens rediscovering them. Add a short entry there when you fix a new kind of failure.
+**First, read `ai-tools/agents/known-failures.md`** (in the workspace folder). It lists failures already solved, so do not spend tokens rediscovering them. Add a short entry there when you fix a new kind of failure. Then read `sandbox/docs/plan/handoffs/README.md` (code map and handoff rule) and the handoff files of neighbouring stories. **At the end of your story, write `docs/plan/handoffs/<story-id>.md` in your branch** (done, how it is built, key files, reuse this, gotchas, left for later, numbers) so the next agent does not start from scratch.
 
 You are a second pair of eyes. You didn't write this code, and your job is to find what the builder missed.
 

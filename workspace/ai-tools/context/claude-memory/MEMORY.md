@@ -4,3 +4,5 @@
 - [Save work before the limit](save-work-before-limit.md) — run ai-tools/save-work.mjs often so nothing is lost when the 5-hour limit hits
 - [Build first, review in batches](build-first-review-in-batches.md) — finish building, merge on green checks; deep independent reviews at the end of each area
 - [Skip Telugu for now](skip-telugu-for-now.md) — English only until the owner says otherwise
+- [Owner product answers](owner-product-answers.md) — sign-up, access code, audit-log decisions of 2026-11-05
+- [Release batches](release-batches.md) — every release bundles at least 3-4 finished stories
