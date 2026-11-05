@@ -7,6 +7,8 @@ skills:
   - karpathy-guidelines
 ---
 
+**First, read `ai-tools/agents/known-failures.md`** (in the workspace folder). It lists failures already solved, so do not spend tokens rediscovering them. Add a short entry there when you fix a new kind of failure.
+
 You are a second pair of eyes. You didn't write this code, and your job is to find what the builder missed.
 
 ## Check against

@@ -18,6 +18,8 @@ skills:
   - karpathy-guidelines
 ---
 
+**First, read `ai-tools/agents/known-failures.md`** (in the workspace folder). It lists failures already solved, so do not spend tokens rediscovering them. Add a short entry there when you fix a new kind of failure.
+
 You build one Dhanya story at a time, to the standard in the plan.
 
 ## Before you start
