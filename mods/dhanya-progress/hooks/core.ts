@@ -1,6 +1,16 @@
 // The pure part of the Dhanya progress pane: reading the two files and turning them
 // into numbers and words. No drawing and no engine calls live here, so it is easy to test.
-import type {NeedItem, Snapshot, Status, Story, CodexRun } from '../types';
+import type {
+  CodexRun,
+  GitHubInfo,
+  NeedItem,
+  PullRequest,
+  Snapshot,
+  SourceKind,
+  Status,
+  Story,
+  WorkflowRun,
+} from '../types';
 
 export const EPIC_NAMES: Record<string, string> = {
   E0: 'Foundation and pipeline',
@@ -286,6 +296,8 @@ export function buildSnapshot(input: {
   needsProblem: string | null;
   needsFileName?: string;
   at: number;
+  source?: SourceKind;
+  sourceAt?: number;
 }): Snapshot {
   const stories = input.sprintText === null ? [] : parseStories(input.sprintText);
   let storiesProblem = input.sprintProblem;
@@ -299,7 +311,15 @@ export function buildSnapshot(input: {
     needs = parsed.items;
     needsProblem = parsed.problem;
   }
-  return { stories, needs, storiesProblem, needsProblem, at: input.at };
+  return {
+    stories,
+    needs,
+    storiesProblem,
+    needsProblem,
+    at: input.at,
+    source: input.source ?? 'local',
+    sourceAt: input.sourceAt ?? input.at,
+  };
 }
 
 /** Last part of a path, for friendly messages. */
@@ -309,7 +329,7 @@ export function fileName(path: string): string {
 }
 
 /** The whole board as plain text, for windows that cannot draw a side pane. */
-export function textBoard(snapshot: Snapshot): string {
+export function textBoard(snapshot: Snapshot, github: GitHubInfo | null = null): string {
   const counts = summarise(snapshot.stories);
   const lines: string[] = [];
   lines.push(`DHANYA PROGRESS (updated ${clock(snapshot.at)})`);
@@ -362,10 +382,14 @@ export function textBoard(snapshot: Snapshot): string {
   for (const story of next) lines.push(`  ○ ${story.id} ${story.title} (${tierLabel(story.tier)})`);
   if (next.length === 0) lines.push('  Nothing queued.');
 
+  lines.push('', 'PULL REQUESTS AND DEPLOYS');
+  for (const line of githubLines(github)) lines.push('  ' + line);
+
   lines.push('', 'BY AREA');
   for (const epic of groupEpics(snapshot.stories)) {
     lines.push(`  ${epic.id} ${epic.name}: ${bar(epic.done, epic.stories.length, 10)} ${epic.done}/${epic.stories.length}`);
   }
+  lines.push('', sourceLine(snapshot.source, snapshot.sourceAt));
   return lines.join('\n');
 }
 
@@ -381,15 +405,14 @@ type CodexStatus = {
   usage?: { input_tokens?: number; output_tokens?: number } | null;
 };
 
-const shorten = (text: string, n: number): string => text.replace(/s+/g, ' ').trim().slice(0, n);
+const shorten = (text: string, n: number): string => text.replace(/\s+/g, ' ').trim().slice(0, n);
 
 /** Works out what Codex is doing from its event log, for a run that has no progress file. */
 export function progressFromEvents(text: string): CodexProgress {
   const files: string[] = [];
   let steps = 0;
   let lastAction = 'Starting';
-  for (const line of text.split('
-')) {
+  for (const line of text.split(/\r?\n/)) {
     if (!line.trim()) continue;
     try {
       const e = JSON.parse(line) as { type?: string; item?: Record<string, unknown> };
@@ -398,13 +421,13 @@ export function progressFromEvents(text: string): CodexProgress {
       if (!item) continue;
       if (item.type === 'command_execution' && e.type === 'item.started') {
         steps += 1;
-        lastAction = 'Running: ' + shorten(String(item.command ?? '').replace(/^"[^"]*powershell.exe"s+-Commands+/i, ''), 90);
+        lastAction = 'Running: ' + shorten(String(item.command ?? '').replace(/^"[^"]*powershell\.exe"\s+-Command\s+/i, ''), 90);
       } else if (item.type === 'file_change' && e.type === 'item.started') {
         for (const ch of item.changes ?? []) {
-          const p = String(ch.path ?? '').replace(/^.*dhanya-wt[\/][^\/]+[\/]/i, '');
+          const p = String(ch.path ?? '').replace(/^.*dhanya-wt[\\/][^\\/]+[\\/]/i, '');
           if (p && !files.includes(p)) files.push(p);
         }
-        lastAction = 'Editing: ' + shorten((item.changes ?? []).map((ch) => String(ch.path ?? '').split(/[\/]/).pop()).join(', '), 90);
+        lastAction = 'Editing: ' + shorten((item.changes ?? []).map((ch) => String(ch.path ?? '').split(/[\\/]/).pop()).join(', '), 90);
       } else if (item.type === 'agent_message' && e.type === 'item.completed') {
         lastAction = 'Says: ' + shorten(String(item.text ?? ''), 110);
       }
@@ -450,4 +473,133 @@ export function codexStatusWord(run: CodexRun): { symbol: string; word: string }
   if (run.state === 'running') return { symbol: '●', word: 'Working' };
   if (run.state === 'done') return { symbol: '✓', word: 'Finished' };
   return { symbol: '■', word: 'Stopped with an error' };
+}
+
+// ---- Where the tracker came from, pull requests and deploys ----------------------------------
+
+/** "just now", "5 min ago", "2 h ago". */
+export function ageWords(nowMs: number, thenMs: number): string {
+  const minutes = Math.max(0, Math.floor((nowMs - thenMs) / 60000));
+  if (minutes < 1) return 'just now';
+  if (minutes < 60) return `${minutes} min ago`;
+  return `${Math.floor(minutes / 60)} h ago`;
+}
+
+/** The small line under the board that says where the tracker was read from. */
+export function sourceLine(kind: SourceKind, sourceAt: number): string {
+  if (kind === 'origin') return `Source: origin/main at ${clock(sourceAt)}`;
+  if (kind === 'origin-stale') {
+    return sourceAt > 0
+      ? `Source: origin/main, last fetched at ${clock(sourceAt)} (GitHub not reachable)`
+      : 'Source: origin/main as last fetched (GitHub not reachable)';
+  }
+  return 'Source: local file (git unavailable)';
+}
+
+/** A warning when the board has not been refreshed for a while, otherwise null. */
+export function stalenessLine(nowMs: number, readAtMs: number, limitMs: number): string | null {
+  if (nowMs - readAtMs <= limitMs) return null;
+  return `Out of date: last read ${ageWords(nowMs, readAtMs)}. Press Refresh now.`;
+}
+
+const text = (value: unknown): string => (typeof value === 'string' ? value : '');
+
+function parseList(raw: string): Record<string, unknown>[] | null {
+  try {
+    const data: unknown = JSON.parse(raw);
+    if (!Array.isArray(data)) return null;
+    return data.filter((x): x is Record<string, unknown> => !!x && typeof x === 'object');
+  } catch {
+    return null;
+  }
+}
+
+/** Reads `gh pr list --json number,title,headRefName,isDraft`. Null when the text is not that list. */
+export function parsePrs(raw: string): PullRequest[] | null {
+  const list = parseList(raw);
+  if (list === null) return null;
+  const prs: PullRequest[] = [];
+  for (const item of list) {
+    if (typeof item.number !== 'number') continue;
+    prs.push({
+      number: item.number,
+      title: text(item.title),
+      branch: text(item.headRefName),
+      isDraft: item.isDraft === true,
+    });
+  }
+  return prs;
+}
+
+/** Reads `gh run list --json workflowName,status,conclusion,headBranch,createdAt`, newest first. */
+export function parseRuns(raw: string): WorkflowRun[] | null {
+  const list = parseList(raw);
+  if (list === null) return null;
+  const runs: WorkflowRun[] = list.map((item) => {
+    const at = Date.parse(text(item.createdAt));
+    return {
+      workflow: text(item.workflowName),
+      status: text(item.status),
+      conclusion: text(item.conclusion),
+      branch: text(item.headBranch),
+      at: Number.isFinite(at) ? at : 0,
+    };
+  });
+  return runs.sort((a, b) => b.at - a.at);
+}
+
+/** The latest finished staging deploy: a workflow named staging, else any named deploy. */
+export function latestDeploy(runs: readonly WorkflowRun[]): WorkflowRun | null {
+  const done = runs.filter((r) => r.status === 'completed');
+  return (
+    done.find((r) => /staging/i.test(r.workflow)) ?? done.find((r) => /deploy/i.test(r.workflow)) ?? null
+  );
+}
+
+/** Workflows that are queued or running right now. */
+export function runningRuns(runs: readonly WorkflowRun[]): WorkflowRun[] {
+  return runs.filter((r) => r.status !== 'completed');
+}
+
+export function deployWords(run: WorkflowRun): { symbol: string; word: string } {
+  if (run.conclusion === 'success') return { symbol: '✓', word: 'Green' };
+  if (run.conclusion === 'cancelled' || run.conclusion === 'skipped') return { symbol: '○', word: 'Stopped' };
+  return { symbol: '■', word: 'Red' };
+}
+
+/** Short title for a narrow pane. */
+export function shortTitle(title: string, max = 44): string {
+  const clean = title.replace(/\s+/g, ' ').trim();
+  return clean.length <= max ? clean : `${clean.slice(0, max - 1).trimEnd()}…`;
+}
+
+/** Lines for the "Pull requests and deploys" section, shared by the pane and the text board. */
+export function githubLines(info: GitHubInfo | null): string[] {
+  if (info === null) return ['Reading GitHub…'];
+  const lines: string[] = [];
+  if (info.prs === null) {
+    lines.push('Pull requests: could not be read right now. Sign in with `gh auth login` if this keeps happening.');
+  } else if (info.prs.length === 0) {
+    lines.push('No open pull requests.');
+  } else {
+    lines.push(`${info.prs.length} open pull request${info.prs.length === 1 ? '' : 's'}`);
+    for (const pr of info.prs) {
+      lines.push(`#${pr.number} ${shortTitle(pr.title)}${pr.isDraft ? ' (draft)' : ''}`);
+    }
+  }
+  if (info.runs === null) {
+    lines.push('Deploys: could not be read right now.');
+  } else {
+    const deploy = latestDeploy(info.runs);
+    if (deploy) {
+      const w = deployWords(deploy);
+      lines.push(`${w.symbol} Last staging deploy: ${w.word} at ${clock(deploy.at)}`);
+    } else {
+      lines.push('No finished staging deploy in the recent list.');
+    }
+    for (const run of runningRuns(info.runs)) {
+      lines.push(`● Running: ${shortTitle(run.workflow, 30)}${run.branch ? ` on ${shortTitle(run.branch, 24)}` : ''}`);
+    }
+  }
+  return lines;
 }

@@ -3,7 +3,7 @@
 import { atom, read, update } from 'claude-code';
 import type { EngineInterface, Register } from 'claude-code';
 
-import type { CodexRun, Snapshot, Story } from '../types';
+import type { CodexRun, GitHubInfo, Snapshot, SourceKind, Story } from '../types';
 import {
   bar,
   buildCodexRun,
@@ -11,6 +11,11 @@ import {
   clock,
   codexStatusWord,
   decisionWaits,
+  githubLines,
+  parsePrs,
+  parseRuns,
+  sourceLine,
+  stalenessLine,
   fileName,
   groupEpics,
   isBlocked,
@@ -31,7 +36,10 @@ const TITLE = 'Dhanya progress';
 
 // A reload keeps stored values, so change a tag when the shape of a value changes.
 const snapshotAtom = atom({ plugin: 'dhanya-progress', key: 'snapshot' } as const, null, {
-  shape: 'snapshot-1',
+  shape: 'snapshot-2',
+});
+const githubAtom = atom({ plugin: 'dhanya-progress', key: 'github' } as const, null, {
+  shape: 'github-1',
 });
 const openEpicsAtom = atom({ plugin: 'dhanya-progress', key: 'openEpics' } as const, [], {
   shape: 'epics-1',
@@ -43,7 +51,89 @@ const doneOpenAtom = atom({ plugin: 'dhanya-progress', key: 'isDoneOpen' } as co
   shape: 'done-1',
 });
 
-type Files = { sprintFile: string; needsFile: string; codexDir: string };
+type Files = {
+  sprintFile: string;
+  needsFile: string;
+  codexDir: string;
+  repoDir: string;
+  repo: string;
+};
+
+const GIT_EVERY_MS = 5 * 60 * 1000;
+const GH_EVERY_MS = 2 * 60 * 1000;
+const TRACKER_IN_REPO = 'docs/plan/sprint-status.yaml';
+
+// What the slow reads last did. Kept for the session; a reload simply asks again.
+const memory = { fetchedAt: 0, fetchOk: false, lastGoodFetch: 0, ghAt: 0, busy: false };
+
+/** Runs a host command by argv (no shell). Returns its text, or null when it failed for any reason. */
+async function runText(
+  $: EngineInterface,
+  argv: string[],
+  timeoutMs: number,
+): Promise<string | null> {
+  try {
+    const result = await $.process.run(argv, { timeoutMs });
+    return result.exitCode === 0 ? result.stdout : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The tracker from the remote main branch (fetched at most every 5 minutes), else the local file. */
+async function readTracker(
+  $: EngineInterface,
+  files: Files,
+  now: number,
+  force: boolean,
+): Promise<{ text: string | null; problem: string | null; source: SourceKind; sourceAt: number }> {
+  if (force || now - memory.fetchedAt >= GIT_EVERY_MS) {
+    const fetched = await runText($, ['git', '-C', files.repoDir, 'fetch', '--quiet', 'origin'], 25000);
+    memory.fetchOk = fetched !== null;
+    // After a failed fetch, try again in a minute rather than at the next 20 seconds.
+    memory.fetchedAt = memory.fetchOk ? now : now - GIT_EVERY_MS + 60000;
+    if (memory.fetchOk) memory.lastGoodFetch = now;
+  }
+  const shown = await runText(
+    $,
+    ['git', '-C', files.repoDir, 'show', `origin/main:${TRACKER_IN_REPO}`],
+    15000,
+  );
+  if (shown !== null && shown.trim() !== '') {
+    return {
+      text: shown,
+      problem: null,
+      source: memory.fetchOk ? 'origin' : 'origin-stale',
+      sourceAt: memory.lastGoodFetch,
+    };
+  }
+  const local = await readText($, files.sprintFile, 'the progress tracker');
+  return { ...local, source: 'local', sourceAt: now };
+}
+
+/** Open pull requests and recent workflow runs, through the gh tool. Only the JSON fields asked for are read. */
+async function readGitHub($: EngineInterface, files: Files, now: number): Promise<GitHubInfo> {
+  const [prText, runJson] = await Promise.all([
+    runText(
+      $,
+      ['gh', 'pr', 'list', '--repo', files.repo, '--json', 'number,title,headRefName,isDraft', '--limit', '10'],
+      25000,
+    ),
+    runText(
+      $,
+      [
+        'gh', 'run', 'list', '--repo', files.repo,
+        '--json', 'workflowName,status,conclusion,headBranch,createdAt', '--limit', '6',
+      ],
+      25000,
+    ),
+  ]);
+  return {
+    prs: prText === null ? null : parsePrs(prText),
+    runs: runJson === null ? null : parseRuns(runJson),
+    at: now,
+  };
+}
 
 /** Reads the Codex runs written by ai-tools/codex-bridge.mjs. Never throws; no folder means no runs. */
 async function readCodexRuns($: EngineInterface, dir: string): Promise<CodexRun[]> {
@@ -92,30 +182,55 @@ async function readText(
   }
 }
 
-/** Refreshes the files and returns the whole board as text, for windows without a side pane. */
+/** Refreshes everything and returns the whole board as text, for windows without a side pane. */
 async function boardText($: EngineInterface, files: Files): Promise<string> {
-  return textBoard(await refresh($, files));
+  const snapshot = await refresh($, files, true);
+  return textBoard(snapshot, await read($, githubAtom));
 }
 
-async function refresh($: EngineInterface, files: Files): Promise<Snapshot> {
-  const [sprint, needs] = await Promise.all([
-    readText($, files.sprintFile, 'the progress tracker'),
+/**
+ * Reads everything. The two small files and the Codex runs are read every time; the slow reads
+ * (git fetch every 5 minutes, GitHub every 2 minutes) only when due, or always when `force` is set.
+ */
+async function refresh($: EngineInterface, files: Files, force = false): Promise<Snapshot> {
+  const now = await $.clock.now();
+  const [tracker, needs] = await Promise.all([
+    readTracker($, files, now, force),
     readText($, files.needsFile, 'the list of what you need to do'),
   ]);
-  const at = await $.clock.now();
   const snapshot = buildSnapshot({
-    sprintText: sprint.text,
-    sprintProblem: sprint.problem,
+    sprintText: tracker.text,
+    sprintProblem: tracker.problem,
     needsText: needs.text,
     needsProblem: needs.problem,
     needsFileName: fileName(files.needsFile),
-    at,
+    at: now,
+    source: tracker.source,
+    sourceAt: tracker.sourceAt,
   });
   await update($, snapshotAtom, () => snapshot);
   const codexRuns = await readCodexRuns($, files.codexDir);
   await update($, codexAtom, () => codexRuns);
+  if (force || now - memory.ghAt >= GH_EVERY_MS) {
+    memory.ghAt = now;
+    const github = await readGitHub($, files, now);
+    await update($, githubAtom, () => github);
+  }
   $.ui.status(statusLine(snapshot));
   return snapshot;
+}
+
+/** Same as refresh, but a timer tick skips itself while a slow read is running, and nothing throws. */
+async function refreshQuietly($: EngineInterface, files: Files, force = false): Promise<void> {
+  if (memory.busy && !force) return;
+  memory.busy = true;
+  try {
+    await refresh($, files, force);
+  } catch {
+    // The pane keeps showing its last good reading.
+  } finally {
+    memory.busy = false;
+  }
 }
 
 function toggle(list: string[], id: string): string[] {
@@ -129,6 +244,10 @@ export const register: Register = (on, options) => {
     sprintFile: String(options.sprintFile),
     needsFile: String(options.needsFile),
     codexDir: String(options.codexRunsDir ?? 'C:/Users/rupen/.dhanya/codex-runs'),
+    repoDir: String(
+      options.repoDir ?? 'C:/Users/rupen/OneDrive/Documents/Staffing/Personal/Projects/workspace/sandbox',
+    ),
+    repo: String(options.githubRepo ?? 'kalyanvv/Dhanya-sandbox'),
   };
 
   on('session.start', async ($, e, next) => {
@@ -137,16 +256,16 @@ export const register: Register = (on, options) => {
       description: 'Open the Dhanya progress pane: what is done, in progress and needed from you',
     });
     await $.command.register({
+      name: 'dhanya-update',
+      description: 'Fetch the latest from GitHub now and show the Dhanya board as text',
+    });
+    await $.command.register({
       name: 'dhanya-refresh',
       description: 'Re-read the Dhanya progress files now',
     });
-    try {
-      await refresh($, files);
-    } catch {
-      // The pane draws a calm message from its state; a failed first reading is not fatal.
-    }
+    await refreshQuietly($, files, true);
     $.clock.every(refreshMs, () => {
-      void refresh($, files).catch(() => undefined);
+      void refreshQuietly($, files);
     });
     try {
       await $.ui.open({ id: PANE, title: TITLE });
@@ -177,12 +296,22 @@ export const register: Register = (on, options) => {
     }
   });
 
+  on('command.run', { command: 'dhanya-update' }, async ($) => {
+    try {
+      return { text: await boardText($, files) };
+    } catch {
+      return { text: 'Could not update the Dhanya board right now.' };
+    }
+  });
+
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
     const { Box, Text, Button } = $.ui.resolve(e);
     const snapshot = await read($, snapshotAtom);
     const openEpics = await read($, openEpicsAtom);
     const isDoneOpen = await read($, doneOpenAtom);
     const codexRuns = await read($, codexAtom);
+    const github = await read($, githubAtom);
+    const nowMs = await $.clock.now();
     const columns = e.props?.bodyColumns ?? 50;
     const barWidth = Math.min(40, Math.max(10, columns - 6));
 
@@ -342,6 +471,18 @@ export const register: Register = (on, options) => {
           })}
         </Box>
 
+        {/* Pull requests and deploys, from GitHub. */}
+        <Box flexDirection="column" gap="xs">
+          <Text size="heading" weight="bold">
+            Pull requests and deploys
+          </Text>
+          {githubLines(github).map((line, i) => (
+            <Text key={`gh-${i}`} dimColor={line.startsWith('#')}>
+              {line}
+            </Text>
+          ))}
+        </Box>
+
         {/* Working on now. */}
         <Box flexDirection="column" gap="xs">
           <Text size="heading" weight="bold">
@@ -450,15 +591,16 @@ export const register: Register = (on, options) => {
             variant="secondary"
             label="Refresh now"
             onPress={() => {
-              void refresh($, files).catch(() => undefined);
+              void refreshQuietly($, files, true);
             }}
           />
           <Text dimColor>
             Updated {clock(snapshot.at)} · re-reads every {Math.round(refreshMs / 1000)} seconds
           </Text>
-          <Text dimColor>
-            Reads {fileName(files.sprintFile)} and {fileName(files.needsFile)}
-          </Text>
+          <Text dimColor>{sourceLine(snapshot.source, snapshot.sourceAt)}</Text>
+          {stalenessLine(nowMs, snapshot.at, refreshMs * 3) && (
+            <Text color="warning">{stalenessLine(nowMs, snapshot.at, refreshMs * 3)}</Text>
+          )}
         </Box>
       </Box>
     );

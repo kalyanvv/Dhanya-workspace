@@ -40,6 +40,9 @@ type Spy = {
   registered?: string[];
   statuses?: string[];
   canPlacePane?: boolean;
+  /** What git and gh answer, keyed as 'git fetch', 'git show', 'gh pr list', 'gh run list'. A missing key fails like a missing tool. */
+  commands?: Record<string, string>;
+  ran?: string[];
 };
 
 /** The engine beneath the mod: the two files, a clock, a pane, and the commands. */
@@ -65,6 +68,19 @@ function stand(
     return { value: undefined };
   });
   on('session.start', (_, e) => ({ cwd: e.cwd }));
+  on('fs.list', () => ({ deny: 'ENOENT' }));
+  on('process.run', (_, e) => {
+    const key = e.argv.includes('show')
+      ? 'git show'
+      : e.argv.includes('fetch')
+        ? 'git fetch'
+        : e.argv.slice(0, 3).join(' ');
+    spy.ran?.push(key);
+    const answer = spy.commands?.[key];
+    return answer === undefined
+      ? { value: { exitCode: 1, stdout: '', stderr: 'not available', isStdoutTruncated: false, isStderrTruncated: false } }
+      : { value: { exitCode: 0, stdout: answer, stderr: '', isStdoutTruncated: false, isStderrTruncated: false } };
+  });
   on('fs.read', (_, e) => {
     if (e.path.endsWith('sprint-status.yaml')) {
       return files.sprint === null || files.sprint === undefined
@@ -111,7 +127,7 @@ test('the pane shows the numbers, what you need to do, and the areas, on every s
 
     // The footer says when and where from.
     expect(await ui.find({ type: 'Text', text: /Updated \d\d:\d\d/ })).toBeDefined();
-    expect(await ui.find({ type: 'Text', text: /sprint-status\.yaml and owner-needs\.json/ })).toBeDefined();
+    expect(await ui.find({ type: 'Text', text: /Source: local file \(git unavailable\)/ })).toBeDefined();
     expect(await ui.find({ key: 'refresh' })).toBeDefined();
     await ui.unmount();
   }
@@ -183,6 +199,7 @@ test('the status line and both commands are registered when the session starts',
 
   expect(registered).toContain('dhanya');
   expect(registered).toContain('dhanya-refresh');
+  expect(registered).toContain('dhanya-update');
   expect(statuses.at(-1)).toBe('Dhanya 1/6 done · 2 need you');
 });
 
@@ -191,5 +208,27 @@ test('a surface that cannot place a pane does not break the session', async ($, 
   await $.session.start({ cwd: '/', surface: 'mobile', isInteractive: true });
   const ui = await $.ui.mount({ ...PANE, surface: 'mobile' });
   expect(await ui.find({ type: 'Text', text: /steps done/ })).toBeDefined();
+  await ui.unmount();
+});
+
+test('the tracker comes from the remote main branch, and pull requests and deploys show', async ($, on) => {
+  const ran: string[] = [];
+  const remote = SPRINT.replace('status: todo }', 'status: done }'); // newer than the local file
+  const prs = JSON.stringify([{ number: 7, title: 'S2.1 Sign-in', headRefName: 'feat/s2-1', isDraft: false }]);
+  const runs = JSON.stringify([
+    { workflowName: 'Deploy staging', status: 'completed', conclusion: 'success', headBranch: 'main', createdAt: '2026-11-05T09:00:00Z' },
+  ]);
+  stand($, on, { sprint: SPRINT, needs: NEEDS }, {
+    ran,
+    commands: { 'git fetch': '', 'git show': remote, 'gh pr list': prs, 'gh run list': runs },
+  });
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true });
+  const ui = await $.ui.mount({ ...PANE, surface: 'desktop' });
+  expect(await ui.find({ type: 'Text', text: /2 of 6 steps done/ })).toBeDefined();
+  expect(await ui.find({ type: 'Text', text: /Source: origin.main at/ })).toBeDefined();
+  expect(await ui.find({ type: 'Text', text: /1 open pull request/ })).toBeDefined();
+  expect(await ui.find({ type: 'Text', text: /#7 S2.1 Sign-in/ })).toBeDefined();
+  expect(await ui.find({ type: 'Text', text: /Last staging deploy: Green/ })).toBeDefined();
+  expect(ran).toContain('git fetch');
   await ui.unmount();
 });

@@ -269,21 +269,46 @@ describe('snapshot', () => {
   });
 });
 
-import { buildCodexRun, codexStatusWord, progressFromEvents, sortCodexRuns } from '../hooks/core';
+import {
+  ageWords,
+  buildCodexRun,
+  codexStatusWord,
+  deployWords,
+  githubLines,
+  latestDeploy,
+  parsePrs,
+  parseRuns,
+  progressFromEvents,
+  runningRuns,
+  sortCodexRuns,
+  sourceLine,
+  stalenessLine,
+} from '../hooks/core';
+
+const BS = String.fromCharCode(92); // a backslash, for Windows paths
 
 describe('Codex runs', () => {
   const events = [
-    '{"type":"turn.started"}',
-    '{"type":"item.started","item":{"type":"command_execution","command":"\\"C:\\\\x\\\\powershell.exe\\" -Command npm test"}}',
-    '{"type":"item.started","item":{"type":"file_change","changes":[{"path":"C:\\Users\\rupen\\dhanya-wt\\s5-8\\src\\a.ts","kind":"update"}]}}',
+    JSON.stringify({ type: 'turn.started' }),
+    JSON.stringify({
+      type: 'item.started',
+      item: { type: 'command_execution', command: `"C:${BS}x${BS}powershell.exe" -Command npm test` },
+    }),
+    JSON.stringify({
+      type: 'item.started',
+      item: {
+        type: 'file_change',
+        changes: [{ path: ['C:', 'Users', 'rupen', 'dhanya-wt', 's5-8', 'src', 'a.ts'].join(BS), kind: 'update' }],
+      },
+    }),
     'not json',
   ].join('\n');
 
   test('reads what Codex is doing from its events', () => {
     const p = progressFromEvents(events);
     expect(p.steps).toBe(1);
-    expect(p.files).toEqual(['src\a.ts']);
-    expect(p.lastAction.startsWith('Editing:')).toBe(true);
+    expect(p.files).toEqual([`src${BS}a.ts`]);
+    expect(p.lastAction?.startsWith('Editing:')).toBe(true);
   });
 
   test('builds a running run with minutes to now', () => {
@@ -306,5 +331,52 @@ describe('Codex runs', () => {
     expect(buildCodexRun('oops', null, 0)).toBeNull();
     const mk = (name: string, state: string, minutes: number) => ({ name, state, minutes, lastAction: '', steps: 0, files: [], branch: '', tokens: null });
     expect(sortCodexRuns([mk('a', 'done', 1), mk('b', 'running', 9)]).map((r) => r.name)).toEqual(['b', 'a']);
+  });
+});
+
+describe('Pull requests and deploys', () => {
+  const PRS = JSON.stringify([
+    { number: 12, title: 'S4.1 Shop ordering', headRefName: 'feat/s4-1', isDraft: true },
+    { number: 'bad', title: 'skipped' },
+    { number: 13, title: 'S4.2', headRefName: 'feat/s4-2', isDraft: false },
+  ]);
+  const RUNS = JSON.stringify([
+    { workflowName: 'CI', status: 'in_progress', conclusion: '', headBranch: 'feat/x', createdAt: '2026-11-06T10:00:00Z' },
+    { workflowName: 'Deploy staging', status: 'completed', conclusion: 'failure', headBranch: 'main', createdAt: '2026-11-06T08:00:00Z' },
+    { workflowName: 'Deploy staging', status: 'completed', conclusion: 'success', headBranch: 'main', createdAt: '2026-11-06T09:00:00Z' },
+  ]);
+
+  test('reads pull requests and skips bad rows; bad text gives null', () => {
+    const prs = parsePrs(PRS)!;
+    expect(prs.map((p) => p.number)).toEqual([12, 13]);
+    expect(prs[0]!.isDraft).toBe(true);
+    expect(parsePrs('not json')).toBeNull();
+    expect(parsePrs('{"a":1}')).toBeNull();
+  });
+
+  test('reads runs newest first, finds the latest staging deploy and the running ones', () => {
+    const runs = parseRuns(RUNS)!;
+    expect(runs.map((r) => r.workflow)).toEqual(['CI', 'Deploy staging', 'Deploy staging']);
+    const deploy = latestDeploy(runs)!;
+    expect(deploy.conclusion).toBe('success');
+    expect(deployWords(deploy).word).toBe('Green');
+    expect(deployWords(runs[2]!).word).toBe('Red');
+    expect(runningRuns(runs).map((r) => r.workflow)).toEqual(['CI']);
+  });
+
+  test('the section words are calm when GitHub fails', () => {
+    expect(githubLines({ prs: null, runs: null, at: 0 }).join(' ')).toContain('could not be read');
+    const lines = githubLines({ prs: parsePrs(PRS), runs: parseRuns(RUNS), at: 0 });
+    expect(lines[0]).toBe('2 open pull requests');
+    expect(lines[1]).toBe('#12 S4.1 Shop ordering (draft)');
+  });
+
+  test('the source line and the out-of-date warning', () => {
+    expect(sourceLine('local', 0)).toBe('Source: local file (git unavailable)');
+    expect(sourceLine('origin', 0)).toMatch(/^Source: origin\/main at \d\d:\d\d$/);
+    expect(sourceLine('origin-stale', 0)).toContain('not reachable');
+    expect(ageWords(10 * 60000, 5 * 60000)).toBe('5 min ago');
+    expect(stalenessLine(1000, 0, 60000)).toBeNull();
+    expect(stalenessLine(10 * 60000, 0, 60000)).toContain('10 min ago');
   });
 });

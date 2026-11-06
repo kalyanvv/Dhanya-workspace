@@ -14,6 +14,9 @@ Open VS Code on `C:\Users\rupen\OneDrive\Documents\Staffing\Personal\Projects\wo
 > 4. Then continue the routine in LEAD-HANDOFF.md: merge main into each finished branch in migration-number order, push, open the PR, read the CI result for the latest commit, merge, confirm the staging deploy is green. Then start the next stories listed there, one worktree and one branch each.
 > Hard rules: never push to `main` directly, never touch production or the `Dhanya` repo, never read or print the secrets file `C:\Users\rupen\.dhanya\.env` or any token, never force-push or delete branches, never use `--no-verify`, English only, plain-language reports, ask me before using the Codex model named astra. If something is blocked, stop and tell me what you were trying to do and why.
 
+## 2b. Who is lead right now
+Read `ai-tools/context/lead-lock.json` first. If it says `claude` and it is recent, act only as a worker on the branch the owner gives you (do not merge PRs or change shared state). Also read `ai-tools/context/lead-status.json` (Codex's own last snapshot) and `ai-tools/LOCAL-TESTING.md` (the private-database test runner `node ai-tools/check-local-docker.mjs ...`: use it instead of editing ports).
+
 ## 3. What Codex needs to know that is not obvious (the short list)
 - **Merge database changes in number order.** Staging skips an older migration that arrives after a newer one. After merging main into a branch, fix the migration journal and snapshots (see LEAD-HANDOFF.md) and run `npx drizzle-kit generate` (it must say "No schema changes"; check `git status` after it).
 - **The shared test database on port 5433** is disturbed when several builders run tests at once. CI is the real proof; run only your own test files locally.

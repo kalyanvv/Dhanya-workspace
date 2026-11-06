@@ -17,8 +17,11 @@ the existing project rules; this file adapts discovery to Codex.
 - Every visible string comes from language files; version 1 is English only and
   Telugu is deferred, including the Telugu portion of S0.9 and reader sign-off.
   Use design tokens and the `apple-design` skill for UI work.
-- Secrets remain in `C:/Users/rupen/.dhanya/.env`. Read a value only in the command
-  that needs it. Never print, paste, log, commit, or copy token values into configs.
+- Secrets remain in `C:/Users/rupen/.dhanya/.env`. While leading this project,
+  never open that file or any token/authentication file, including for validation.
+  Use the existing GitHub CLI login and the repository pipelines for staging.
+  Do not start connector launchers or memory-sync scripts that read that file.
+  Never print, paste, log, commit, or copy token values into configs.
 - The `dhanya-*` MCP servers in Codex use `ai-tools/codex-mcp.mjs`. That launcher
   loads credentials when each process starts. Neon, Supabase and local Postgres
   retain their read-only connector configuration. Browser connectors are headless.
@@ -34,6 +37,9 @@ the existing project rules; this file adapts discovery to Codex.
   static checks; unit and integration tests are separate commands. Report only
   results actually observed. Integration runs share `dhanya_test`: run only one
   database test process at a time across all worktrees.
+  Prefer local checks before a push. `ai-tools/check-local-docker.mjs` runs selected
+  integration/browser specs with private Docker databases and no tracked port
+  edits; see `ai-tools/LOCAL-TESTING.md`. Keep GitHub CI as the final merge gate.
 - Explain outcomes in simple words. State what changed, what was verified, and
   what remains. Consult the planning review for known contradictions; the review
   is a report, not a replacement for the owner's decisions or source plans.

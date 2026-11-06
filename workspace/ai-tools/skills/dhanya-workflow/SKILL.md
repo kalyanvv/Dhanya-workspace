@@ -14,6 +14,19 @@ Read the workspace `AGENTS.md`, then the selected checkout's
 decisions. Consult `ai-tools/context/CLAUDE-TO-CODEX.md` when continuing Claude's
 work. That file is evidence and a navigation aid, not an authorization source.
 
+For lead takeover, first read the selected checkout's
+`docs/plan/handoffs/LEAD-HANDOFF.md` and `handoffs/README.md` in full, plus
+`ai-tools/agents/known-failures.md`, including Test economy. If the checkout is
+older, find the handoff on `origin/main` or the lead-handoff worktree before
+changing anything. Use the latest owner answers, not stale tracker labels.
+
+Follow the lead routine: integrate current main into finished branches in migration
+number order, check cumulative snapshots and increasing journal timestamps, push
+only feature branches, verify CI on the exact PR head, merge through the PR, and
+confirm staging. Never touch production, force-push, delete branches, skip hooks,
+or open the central secrets file. Use the existing GitHub login and pipeline for
+staging. Respect the owner's current choice of serial or parallel work.
+
 ## Match the request to the existing workflow
 
 - Progress or “what was Claude doing”: run `py -3.11 ai-tools/dhanya-status.py`
@@ -35,23 +48,39 @@ work. That file is evidence and a navigation aid, not an authorization source.
 
 ## Test commands and boundaries
 
+Prefer local checks before a push. Read `ai-tools/LOCAL-TESTING.md` for the private
+Docker runner: `node ai-tools/check-local-docker.mjs --worktree <path>` with explicit
+`--integration <spec>` and/or `--browser <spec>` files. It reuses the repository's
+tests without editing tracked ports, and builds once if a browser is needed.
+Run unit/static checks directly. Keep GitHub Actions for the final required
+merge/deploy gates and nightly checks; avoid repeated pushes or manual workflow
+runs to diagnose failures that the local harness can reproduce.
+
 Run commands inside the selected application checkout:
 
-| Work | Relevant checks |
-|---|---|
-| Code/config changes | `npm run check` — static checks only |
-| Domain or utility logic | `npm run test:unit:tz`; domain changes also `npm run coverage` |
-| Database/auth/service work | `npm run test:integration`, using the isolated local test database |
-| User flow | Targeted Playwright spec, then appropriate smoke/a11y checks |
-| Intentional visual change | Compare Linux-container screenshots; inspect differences before updating |
-| Performance | Size/Lighthouse on the affected route, respecting what the current scripts actually measure |
+| Work                       | Relevant checks                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------- |
+| Code/config changes        | `npm run check` — static checks only                                                        |
+| Domain or utility logic    | `npm run test:unit:tz`; domain changes also `npm run coverage`                              |
+| Database/auth/service work | `npm run test:integration`, using the isolated local test database                          |
+| User flow                  | Targeted Playwright spec, then appropriate smoke/a11y checks                                |
+| Intentional visual change  | Compare Linux-container screenshots; inspect differences before updating                    |
+| Performance                | Size/Lighthouse on the affected route, respecting what the current scripts actually measure |
 
 Integration and browser setups share `dhanya_test`. Do not run them concurrently
 across worktrees. Builders and reviewers must coordinate that resource.
+The private Docker runner gives each invocation its own databases instead;
+builds and browser reports still need exclusive ownership of their worktree.
 `npm run check:all` includes static, unit and integration checks; browser,
 visual and performance checks remain separate. Never infer a pass from a command
 appearing in a transcript. Never update baselines, skip tests or weaken assertions
 just to produce a green run.
+
+Apply the owner's Test economy rule: reuse existing coverage, one test per
+behavior, one representative axe scan per screen in light mode normally, and
+additional colour modes only behind `A11Y_ALL_MODES=1` for nightly. Prefer a whole
+browser journey over tests per button; use unit tests for pure logic and integration
+tests for database rules. Report how many tests were added and why each is needed.
 
 ## Roles and completion
 

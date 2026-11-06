@@ -37,7 +37,36 @@ export type Snapshot = {
   needsProblem: string | null;
   /** Milliseconds since the epoch when the files were read. */
   at: number;
+  /** Where the tracker came from: the remote main branch, the remote branch as last fetched (GitHub not reachable), or the local file. */
+  source: SourceKind;
+  /** Milliseconds since the epoch of the last good fetch from the remote (0 when unknown). */
+  sourceAt: number;
 };
+
+export type SourceKind = 'origin' | 'origin-stale' | 'local';
+
+export type PullRequest = { number: number; title: string; branch: string; isDraft: boolean };
+
+export type WorkflowRun = {
+  workflow: string;
+  /** queued, in_progress or completed. */
+  status: string;
+  /** success, failure, cancelled ... Empty while the run is not finished. */
+  conclusion: string;
+  branch: string;
+  /** Milliseconds since the epoch when the run was created. */
+  at: number;
+};
+
+export type GitHubInfo = {
+  /** Null when the list of pull requests could not be read. */
+  prs: PullRequest[] | null;
+  /** Null when the list of workflow runs could not be read. */
+  runs: WorkflowRun[] | null;
+  /** Milliseconds since the epoch when GitHub was last asked. */
+  at: number;
+};
+
 
 export type CodexRun = {
   name: string;
@@ -65,6 +94,8 @@ declare module 'claude-code' {
       isDoneOpen: Shaped<boolean>;
       /** The latest reading of the Codex runs. */
       codexRuns: Shaped<CodexRun[]>;
+      /** The latest reading of open pull requests and workflow runs. Null until the first reading. */
+      github: Shaped<GitHubInfo | null>;
     };
   }
 }

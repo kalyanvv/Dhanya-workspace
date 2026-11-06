@@ -15,17 +15,28 @@ Every status is a symbol plus words (✓ Done, ● Working, ◐ In review, ■ B
 ## Using it
 
 - It opens by itself when the session starts if the window can show a side pane.
-- Type `/dhanya` to open it, or `/dhanya-refresh` to re-read the files and see the numbers in the chat.
+- Type `/dhanya` to open it, or `/dhanya-refresh` to re-read the files, or `/dhanya-update` to fetch the latest from GitHub first, and see the numbers in the chat.
 - The status line also shows a short summary, such as `Dhanya 12/67 done · 3 need you`.
 
 ## Where the numbers come from
 
-Two files, both read every 20 seconds and when you press **Refresh now**:
+- The progress tracker (`docs/plan/sprint-status.yaml`) is read from the **remote main branch** on GitHub, so nobody has to pull first. If git does not work, the pane uses the local copy of the file and says so.
+- `ai-tools/progress/owner-needs.json`, the list of what you need to do. Claude keeps it up to date.
+- **Pull requests and deploys**: open pull requests, the latest staging deploy (green or red, with the time) and anything running now.
+- **Codex agents**: the runs the Codex bridge writes to `~/.dhanya/codex-runs`.
 
-1. `sandbox/docs/plan/sprint-status.yaml`, the progress tracker the build agents update.
-2. `ai-tools/progress/owner-needs.json`, the list of what you need to do. Claude keeps it up to date.
+If something is missing or broken, the pane says so in plain words and keeps showing everything else. The footer line says where the tracker came from, for example `Source: origin/main at 14:05`.
 
-If a file is missing or broken, the pane says so in plain words and keeps showing everything else.
+## How it updates itself
+
+| What | How often |
+| --- | --- |
+| Needs file, Codex runs, and re-reading the tracker | every 20 seconds |
+| `git fetch` of the project, then the tracker from `origin/main` | every 5 minutes |
+| Pull requests and workflow runs from GitHub (`gh`) | every 2 minutes |
+| Everything at once | the **Refresh now** button, or `/dhanya-update` (which also prints the board as text) |
+
+If the board has not been read for a while, a yellow "Out of date" line appears under it. Pull requests and deploys need the GitHub tool signed in once (`gh auth login`); if it is not, that section says it could not be read and the rest keeps working. The pane only reads the few fields it shows and never prints any token.
 
 ## Changing the settings
 

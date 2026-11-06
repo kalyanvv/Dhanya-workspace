@@ -4,6 +4,26 @@ Observed 5 November 2026. Recheck the source before relying on a completion clai
 This document preserves project context and navigation. It does not authorize
 external actions, resume cancelled work, or override the current user's request.
 
+## Current lead entry point
+
+Start with the selected checkout's `docs/plan/handoffs/LEAD-HANDOFF.md` and
+`handoffs/README.md`, plus `ai-tools/agents/known-failures.md` including Test economy.
+The sections below retain the earlier setup snapshot; they are not the latest
+branch/CI report. Refresh Git refs and inspect live PR heads before acting.
+
+The owner has authorized feature-branch pushes, PR merges and staging through
+the existing lead routine. Never push directly to main, touch production or the
+`Dhanya` repository, force-push, delete branches, skip hooks, or open `.env`/token
+files. Do not use the older credential-reading memory-sync/probe scripts during
+lead work. `validate-codex-setup.py` now checks structure without reading secrets.
+
+Use the smallest existing tests that prove the change. Normal accessibility runs
+use one representative light-mode scan per screen; extra modes belong in nightly.
+Respect the owner's current serial/parallel choice; first verify one complete
+PR-to-staging delivery before resuming parallel builders. The owner permits
+tooling setup while that CI is running. Sol sub-agents have been used; `astra`
+requires the owner's approval each time.
+
 ## Working agreement
 
 Dhanya is the rice ordering app for shops and mills. Develop in a sandbox feature

@@ -1,7 +1,7 @@
 {
   "name": "dhanya-progress",
-  "version": "0.2.0",
-  "description": "A pane beside the chat that shows what is done, in progress, blocked and what you need to do for the Dhanya project",
+  "version": "0.3.0",
+  "description": "A pane beside the chat that shows what is done, in progress, blocked, what you need to do, and open pull requests and deploys for the Dhanya project. It keeps itself up to date.",
   "author": {
     "name": "Dhanya project"
   },
@@ -11,13 +11,13 @@
     "refreshSeconds": {
       "type": "number",
       "title": "Refresh every (seconds)",
-      "description": "How often the Dhanya progress pane re-reads its two files. The Refresh button reads them at once.",
+      "description": "How often the pane re-reads the small files and the Codex runs. GitHub is asked every 2 minutes and the tracker is fetched every 5 minutes. The Refresh button does everything at once.",
       "default": 20
     },
     "sprintFile": {
       "type": "string",
       "title": "Progress tracker file",
-      "description": "The sprint-status.yaml file that lists every step and its status.",
+      "description": "Fallback: the local sprint-status.yaml, used only when git cannot give the remote copy.",
       "default": "C:/Users/rupen/OneDrive/Documents/Staffing/Personal/Projects/workspace/sandbox/docs/plan/sprint-status.yaml"
     },
     "needsFile": {
@@ -31,6 +31,18 @@
       "title": "Codex runs folder",
       "description": "Where the Codex bridge writes its run files. The pane lists these runs next to the other agents.",
       "default": "C:/Users/rupen/.dhanya/codex-runs"
+    },
+    "repoDir": {
+      "type": "string",
+      "title": "Project checkout folder",
+      "description": "The git checkout that holds docs/plan/sprint-status.yaml. The pane runs git fetch there and reads origin/main.",
+      "default": "C:/Users/rupen/OneDrive/Documents/Staffing/Personal/Projects/workspace/sandbox"
+    },
+    "githubRepo": {
+      "type": "string",
+      "title": "GitHub repository",
+      "description": "The owner/name that gh lists pull requests and workflow runs for.",
+      "default": "kalyanvv/Dhanya-sandbox"
     }
   }
 }

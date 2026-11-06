@@ -1,0 +1,8 @@
+{
+  "_note": "Who is the lead right now. Only the lead merges PRs and changes the shared state. The other tool works only on a branch it was explicitly given. Update this file when you hand over. If 'since' is older than 2 hours and nothing has changed in GitHub or the worktrees, ask the owner before taking over.",
+  "lead": "claude",
+  "since": "2026-11-06T12:40:00Z",
+  "previous_lead": "codex (2026-11-05 evening: merged PR 48, built ai-tools/check-local-docker.mjs, wrote context/lead-status.json)",
+  "workers": [],
+  "owner_rule": "One story at a time was requested of Codex on 2026-11-05; Claude may run several stories in parallel through its subagents and the Codex bridge."
+}

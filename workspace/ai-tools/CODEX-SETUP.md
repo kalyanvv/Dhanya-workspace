@@ -32,7 +32,7 @@ workspace. These are user-scoped skills and therefore also available when
 working in the external `dhanya-wt` checkouts.
 
 Project agent registrations live in `workspace/.codex/config.toml`, the outer
-`Projects/.codex/config.toml`, and each of the 15 existing application checkouts.
+`Projects/.codex/config.toml`, and each of the 42 existing application checkouts.
 The checkout-local generated configuration is excluded from application commits.
 Rerun the installer after adding a worktree. Each checkout keeps its own branch
 and plan; shared tools/context do not make all checkouts the same version.
@@ -119,6 +119,19 @@ complete restart to inherit it. `py -3.11 -m uv` also works without a PATH refre
 The full CI/testing/session-parity guide is `sandbox/docs/runbooks/codex.md`.
 Use `dhanya-workflow` for project work, `py -3.11 ai-tools/dhanya-status.py` for
 local progress, and `node ai-tools/audit-ci.mjs` for a read-only GitHub snapshot.
+
+For current lead work, begin with `sandbox/docs/plan/handoffs/LEAD-HANDOFF.md`,
+the neighbouring story handoffs and `ai-tools/agents/known-failures.md`, including
+Test economy. The skill and role copies were refreshed for that routine and the
+owner's latest decisions. Respect the owner's current choice of serial work.
+The structural validator above no longer opens `.env` or compares actual token
+values. While the owner's no-credentials rule is active, do not run MCP connection
+probes or memory-sync/backup scripts that open that file. Configuring a connector
+does not require starting it.
+
+Local Docker checks: see `ai-tools/LOCAL-TESTING.md` and
+`ai-tools/check-local-docker.mjs`. They reuse the project's tests with private
+databases and no tracked port edits, before the required GitHub merge gate.
 
 ## What does not transfer directly
 

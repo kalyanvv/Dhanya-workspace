@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate generated TOML, skill discovery, and absence of credential values."""
+"""Validate generated configuration and discovery without opening credential files."""
 import json
 from pathlib import Path
 import re
@@ -61,19 +61,11 @@ duplicates = {name: folders for name, folders in names.items() if len(folders) >
 assert not duplicates, f'Duplicate skill names: {duplicates}'
 print(f'Skills: {len(names)} valid distinct names with reachable source files')
 
-# Read values inside this local verification command only. Report filenames, never values.
-secrets = []
-for line in (home / '.dhanya' / '.env').read_text(encoding='utf-8-sig').splitlines():
-    if re.match(r'^\s*[A-Za-z_][A-Za-z_0-9]*\s*=', line):
-        key, raw_value = line.split('=', 1)
-        value = raw_value.strip().strip('\"\'')
-        if len(value) >= 12 and re.search(r'TOKEN|SECRET|API_KEY|DATABASE_URL', key):
-            secrets.append(value)
-files += [workspace / 'AGENTS.md', workspace.parent / 'AGENTS.md']
-files += [path for path in tools.glob('*codex*') if path.is_file()]
-files += list((tools / 'context').rglob('*.md'))
-files += list(Path(manifest['skill_projection_root']).glob('*/SKILL.md'))
-for path in files:
-    text = path.read_text(encoding='utf-8')
-    assert not any(value in text for value in secrets), f'Credential value in {path.name}'
-print('Credentials: no token values found in generated configuration, prompts or setup scripts')
+# The lead's standing rule forbids opening .env or token files, including for a
+# security check. Validate the connector structure; do not claim a value comparison.
+for name, entry in servers.items():
+    assert set(entry) <= {'command', 'args', 'cwd', 'enabled', 'startup_timeout_sec', 'tool_timeout_sec'}, name
+    assert len(entry['args']) == 2, name
+    assert Path(entry['args'][0]).resolve() == (tools / 'codex-mcp.mjs').resolve(), name
+    assert entry['args'][1] in manifest['mcp_servers'], name
+print('Credential handling: connector entries use the launcher; no credential files opened')
