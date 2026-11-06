@@ -49,3 +49,5 @@ If `uv` is not visible in an older terminal, use `py -3.11 -m uv`.
 Setup guide: `ai-tools/CODEX-SETUP.md`. Reinstall with
 `py -3.11 ai-tools/install-codex.py` after adding or changing agents, skills, or
 connector definitions. Run `node ai-tools/check-codex-mcps.mjs` to check connections.
+
+Taking over as lead: read sandbox/docs/plan/handoffs/LEAD-HANDOFF.md first.

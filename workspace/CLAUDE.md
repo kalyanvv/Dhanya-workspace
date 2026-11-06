@@ -30,3 +30,6 @@ Follow the `karpathy-guidelines` skill (source clone in `ai-tools/andrej-karpath
 
 ## How we work: build first, review in batches
 Builders build with their own tests; the lead re-runs the checks and merges when GitHub CI is green. Deep independent reviews (security, UI, money) are done in batches at the end of each area and before real data, and every skipped review is listed in `sandbox/docs/plan/review-backlog.md`.
+
+## Taking over as lead (if Claude is out of usage)
+Read `sandbox/docs/plan/handoffs/LEAD-HANDOFF.md` first (rules, routine, merge order, current state, the Codex bridge `ai-tools/codex-bridge.mjs`). Never push to production, never read the secrets file, English only, plain-language reports.

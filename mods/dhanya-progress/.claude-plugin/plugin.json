@@ -1,6 +1,6 @@
 {
   "name": "dhanya-progress",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A pane beside the chat that shows what is done, in progress, blocked and what you need to do for the Dhanya project",
   "author": {
     "name": "Dhanya project"
@@ -25,6 +25,12 @@
       "title": "What-you-need file",
       "description": "The owner-needs.json file that lists what the owner needs to do or decide.",
       "default": "C:/Users/rupen/OneDrive/Documents/Staffing/Personal/Projects/workspace/ai-tools/progress/owner-needs.json"
+    },
+    "codexRunsDir": {
+      "type": "string",
+      "title": "Codex runs folder",
+      "description": "Where the Codex bridge writes its run files. The pane lists these runs next to the other agents.",
+      "default": "C:/Users/rupen/.dhanya/codex-runs"
     }
   }
 }

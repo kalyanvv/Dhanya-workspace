@@ -39,6 +39,21 @@ export type Snapshot = {
   at: number;
 };
 
+export type CodexRun = {
+  name: string;
+  /** running, done or failed (as the bridge wrote it). */
+  state: string;
+  /** Minutes since it started (to now while running, to the end when finished). */
+  minutes: number;
+  /** What Codex is doing right now, in a few words. */
+  lastAction: string;
+  steps: number;
+  files: string[];
+  branch: string;
+  /** Tokens, when the run has finished and reported them. */
+  tokens: number | null;
+};
+
 declare module 'claude-code' {
   interface PluginState {
     'dhanya-progress': {
@@ -48,6 +63,8 @@ declare module 'claude-code' {
       openEpics: Shaped<string[]>;
       /** Whether the Done section is expanded. */
       isDoneOpen: Shaped<boolean>;
+      /** The latest reading of the Codex runs. */
+      codexRuns: Shaped<CodexRun[]>;
     };
   }
 }

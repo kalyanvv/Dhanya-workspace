@@ -268,3 +268,43 @@ describe('snapshot', () => {
     expect(statusLine(s)).toBe('Dhanya 1/9 done · 3 need you'); // 1 open item + 2 decision waits
   });
 });
+
+import { buildCodexRun, codexStatusWord, progressFromEvents, sortCodexRuns } from '../hooks/core';
+
+describe('Codex runs', () => {
+  const events = [
+    '{"type":"turn.started"}',
+    '{"type":"item.started","item":{"type":"command_execution","command":"\\"C:\\\\x\\\\powershell.exe\\" -Command npm test"}}',
+    '{"type":"item.started","item":{"type":"file_change","changes":[{"path":"C:\\Users\\rupen\\dhanya-wt\\s5-8\\src\\a.ts","kind":"update"}]}}',
+    'not json',
+  ].join('\n');
+
+  test('reads what Codex is doing from its events', () => {
+    const p = progressFromEvents(events);
+    expect(p.steps).toBe(1);
+    expect(p.files).toEqual(['src\a.ts']);
+    expect(p.lastAction.startsWith('Editing:')).toBe(true);
+  });
+
+  test('builds a running run with minutes to now', () => {
+    const status = JSON.stringify({ name: 's5-8', state: 'running', started: '2026-11-06T01:00:00.000Z', branch: 'feat/x' });
+    const run = buildCodexRun(status, { lastAction: 'Thinking', steps: 2, files: ['a'] }, Date.parse('2026-11-06T01:12:00.000Z'));
+    expect(run?.minutes).toBe(12);
+    expect(run?.lastAction).toBe('Thinking');
+    expect(codexStatusWord(run!).word).toBe('Working');
+  });
+
+  test('a finished run counts tokens and stops the clock', () => {
+    const status = JSON.stringify({ name: 'a', state: 'done', started: '2026-11-06T01:00:00.000Z', ended: '2026-11-06T01:05:00.000Z', usage: { input_tokens: 1000, output_tokens: 500 } });
+    const run = buildCodexRun(status, null, Date.parse('2026-11-06T09:00:00.000Z'));
+    expect(run?.minutes).toBe(5);
+    expect(run?.tokens).toBe(1500);
+    expect(run?.lastAction).toBe('Finished');
+  });
+
+  test('bad status text gives nothing, and running sorts first', () => {
+    expect(buildCodexRun('oops', null, 0)).toBeNull();
+    const mk = (name: string, state: string, minutes: number) => ({ name, state, minutes, lastAction: '', steps: 0, files: [], branch: '', tokens: null });
+    expect(sortCodexRuns([mk('a', 'done', 1), mk('b', 'running', 9)]).map((r) => r.name)).toEqual(['b', 'a']);
+  });
+});

@@ -1,6 +1,6 @@
 // The pure part of the Dhanya progress pane: reading the two files and turning them
 // into numbers and words. No drawing and no engine calls live here, so it is easy to test.
-import type { NeedItem, Snapshot, Status, Story } from '../types';
+import type {NeedItem, Snapshot, Status, Story, CodexRun } from '../types';
 
 export const EPIC_NAMES: Record<string, string> = {
   E0: 'Foundation and pipeline',
@@ -367,4 +367,87 @@ export function textBoard(snapshot: Snapshot): string {
     lines.push(`  ${epic.id} ${epic.name}: ${bar(epic.done, epic.stories.length, 10)} ${epic.done}/${epic.stories.length}`);
   }
   return lines.join('\n');
+}
+
+// ---- Codex runs (started by ai-tools/codex-bridge.mjs) ---------------------------------------
+
+type CodexProgress = { lastAction?: string; steps?: number; files?: string[] };
+type CodexStatus = {
+  name?: string;
+  state?: string;
+  started?: string;
+  ended?: string;
+  branch?: string;
+  usage?: { input_tokens?: number; output_tokens?: number } | null;
+};
+
+const shorten = (text: string, n: number): string => text.replace(/s+/g, ' ').trim().slice(0, n);
+
+/** Works out what Codex is doing from its event log, for a run that has no progress file. */
+export function progressFromEvents(text: string): CodexProgress {
+  const files: string[] = [];
+  let steps = 0;
+  let lastAction = 'Starting';
+  for (const line of text.split('
+')) {
+    if (!line.trim()) continue;
+    try {
+      const e = JSON.parse(line) as { type?: string; item?: Record<string, unknown> };
+      const item = e.item as { type?: string; command?: string; text?: string; changes?: { path?: string }[] } | undefined;
+      if (e.type === 'turn.started') lastAction = 'Thinking';
+      if (!item) continue;
+      if (item.type === 'command_execution' && e.type === 'item.started') {
+        steps += 1;
+        lastAction = 'Running: ' + shorten(String(item.command ?? '').replace(/^"[^"]*powershell.exe"s+-Commands+/i, ''), 90);
+      } else if (item.type === 'file_change' && e.type === 'item.started') {
+        for (const ch of item.changes ?? []) {
+          const p = String(ch.path ?? '').replace(/^.*dhanya-wt[\/][^\/]+[\/]/i, '');
+          if (p && !files.includes(p)) files.push(p);
+        }
+        lastAction = 'Editing: ' + shorten((item.changes ?? []).map((ch) => String(ch.path ?? '').split(/[\/]/).pop()).join(', '), 90);
+      } else if (item.type === 'agent_message' && e.type === 'item.completed') {
+        lastAction = 'Says: ' + shorten(String(item.text ?? ''), 110);
+      }
+    } catch {
+      /* skip a line that is not JSON */
+    }
+  }
+  return { lastAction, steps, files };
+}
+
+/** One Codex run, from its status file and (when there is one) its progress. */
+export function buildCodexRun(statusText: string, progress: CodexProgress | null, nowMs: number): CodexRun | null {
+  let s: CodexStatus;
+  try {
+    s = JSON.parse(statusText) as CodexStatus;
+  } catch {
+    return null;
+  }
+  if (!s.name) return null;
+  const start = Date.parse(s.started ?? '');
+  const end = s.state === 'running' ? nowMs : Date.parse(s.ended ?? '') || nowMs;
+  const minutes = Number.isFinite(start) ? Math.max(0, Math.round((end - start) / 60000)) : 0;
+  const tokens = s.usage ? (s.usage.input_tokens ?? 0) + (s.usage.output_tokens ?? 0) : null;
+  return {
+    name: s.name,
+    state: s.state ?? 'running',
+    minutes,
+    lastAction: progress?.lastAction ?? (s.state === 'done' ? 'Finished' : s.state === 'failed' ? 'Stopped with an error' : 'Starting'),
+    steps: progress?.steps ?? 0,
+    files: progress?.files ?? [],
+    branch: s.branch ?? '',
+    tokens,
+  };
+}
+
+/** Running first, then the most recent finished ones. */
+export function sortCodexRuns(runs: readonly CodexRun[]): CodexRun[] {
+  const rank = (r: CodexRun) => (r.state === 'running' ? 0 : 1);
+  return [...runs].sort((a, b) => rank(a) - rank(b) || a.minutes - b.minutes);
+}
+
+export function codexStatusWord(run: CodexRun): { symbol: string; word: string } {
+  if (run.state === 'running') return { symbol: '●', word: 'Working' };
+  if (run.state === 'done') return { symbol: '✓', word: 'Finished' };
+  return { symbol: '■', word: 'Stopped with an error' };
 }
