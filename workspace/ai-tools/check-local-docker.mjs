@@ -96,9 +96,9 @@ function run(label, args, extra = {}) {
     const diagnostics = output
       .split(/\r?\n/)
       .filter((line) =>
-        /^\s*(?:FAIL\s|Type error:|Error:|Failed to compile)/.test(line),
+        /^\s*(?:FAIL\s|Type error:|Error:|AssertionError:|error:|Caused by:|\u276f|Failed to compile)/.test(line),
       )
-      .slice(-5);
+      .slice(-12);
     console.error(
       diagnostics
         .map((line) =>

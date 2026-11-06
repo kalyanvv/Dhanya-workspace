@@ -1,0 +1,326 @@
+{
+  "observedAt": "2026-11-06T17:04:12.768Z",
+  "repository": "kalyanvv/Dhanya-workspace",
+  "files": [
+    {
+      "path": "bmad-custom/.gitignore",
+      "sha256": "973b03a33f142c22cf9b65be285bebadd85790b6b55be04637d2f8c716f58fab"
+    },
+    {
+      "path": "bmad-custom/config.toml",
+      "sha256": "8ab4f6f8a22f0b364bd1787b58ed4bbe9a3df3bfe0796ed59a8a54fa88118638"
+    },
+    {
+      "path": "mods/dhanya-progress/.claude-plugin/plugin.json",
+      "sha256": "df88592fc44d2c3dc66ef26e79498205deecc26c75fd5048364d9050e7f43b57"
+    },
+    {
+      "path": "mods/dhanya-progress/hooks/core.ts",
+      "sha256": "cd659344d85390affe5746ded6b19372ff460a1735fbf83e0d2ad92da81757fb"
+    },
+    {
+      "path": "mods/dhanya-progress/hooks/hooks.json",
+      "sha256": "d842d789476d67282d0f04b7e5fdc68a3d981ccec65dd79cfa2d11eed13fb828"
+    },
+    {
+      "path": "mods/dhanya-progress/hooks/register.tsx",
+      "sha256": "c840beb35bec7ee1edce9aadd0ab3b816ea056801d0110ae10f824d14a9fd2e5"
+    },
+    {
+      "path": "mods/dhanya-progress/LICENSE",
+      "sha256": "921dcfd368568367b9d6e104603d1db90fa380ec04292f20d362a7bd6d498395"
+    },
+    {
+      "path": "mods/dhanya-progress/README.md",
+      "sha256": "96a93b2b12ce48243db1931b385f5d7c83da097081b21a76a7ef26a97798b3e6"
+    },
+    {
+      "path": "mods/dhanya-progress/tests/core.test.ts",
+      "sha256": "246aa02e6848f18a45d21148295b07b6241ebf9aff57c29928317453331bedcc"
+    },
+    {
+      "path": "mods/dhanya-progress/tests/pane.test.tsx",
+      "sha256": "edd8624dc5be8bc02695ca78ef28eff99280f7edf96147f46bf0f4739f0f0e6d"
+    },
+    {
+      "path": "mods/dhanya-progress/tsconfig.json",
+      "sha256": "4087cf0ba92fde503ed0e7c56f37bcb26ad0c085873f10219d0336c0f19b5a8f"
+    },
+    {
+      "path": "mods/dhanya-progress/types/index.d.ts",
+      "sha256": "f5aef7a4b06648766d55a654c98ac817a5e4806b2975e3819a1b9e167caf9a12"
+    },
+    {
+      "path": "setup-new-pc.mjs",
+      "sha256": "fd119825e5783fb471f3f04eb62fa90d72d6bfce9e64a17d6161be1835c92f7d"
+    },
+    {
+      "path": "workspace/.mcp.json",
+      "sha256": "ecaaec37caa4000e308c7bf74eb7c579d081a41d0a8f16cb3dab48427c96d5e0"
+    },
+    {
+      "path": "workspace/AGENTS.md",
+      "sha256": "80fcb79961aba5817f10f3e5a760ce0d372989a5f2ae699d166cbd4606392f72"
+    },
+    {
+      "path": "workspace/ai-tools/agents/dhanya-builder.md",
+      "sha256": "bc75f557ee04ede46451899df234bd01fc338a309ebd7dc07a03aaf4ec1dec21"
+    },
+    {
+      "path": "workspace/ai-tools/agents/dhanya-helper.md",
+      "sha256": "a8d4592d9ce0ff778abefc5053405ead30b09e0bdbb2da9a7f248dcd5875ce6c"
+    },
+    {
+      "path": "workspace/ai-tools/agents/dhanya-qa.md",
+      "sha256": "dc954e1fe2ad7645184feb5cbf156f6a9310c7e4b757d47e61d736d3ce06fa89"
+    },
+    {
+      "path": "workspace/ai-tools/agents/dhanya-reviewer.md",
+      "sha256": "ed865a8e9af67bef74ccf62a1e082d133c9696f90107fbba3feb45cc7215df62"
+    },
+    {
+      "path": "workspace/ai-tools/agents/known-failures.md",
+      "sha256": "7df6576ec16a8729e5f46eef185c820c4246d95decdb39f8e0595e4d8737c3fe"
+    },
+    {
+      "path": "workspace/ai-tools/audit-ci.mjs",
+      "sha256": "75948ce8e66c999571666a49d0e8475996a516fb558f6cc2b6ac40015863e01c"
+    },
+    {
+      "path": "workspace/ai-tools/audit-claude-session.py",
+      "sha256": "48e6858191e53b98a86b94e8df6bb6478c4a21d25147ccf4b230c4057ce2389b"
+    },
+    {
+      "path": "workspace/ai-tools/check-codex-mcps.mjs",
+      "sha256": "88ed31da2005f49ffdd269516e29d07c6d606cb465f6d1d4b9a88c642a777338"
+    },
+    {
+      "path": "workspace/ai-tools/check-local-docker.mjs",
+      "sha256": "dfe82837addd4e915f16fb4bbc8047cc3ff97b11607651f0d30114a6901cacbc"
+    },
+    {
+      "path": "workspace/ai-tools/codex-bridge.mjs",
+      "sha256": "fe58fef3a576f19808b33027b79822ad5ea00407bdf1b08ac28137fe9e7c21b2"
+    },
+    {
+      "path": "workspace/ai-tools/codex-mcp.mjs",
+      "sha256": "6f7b8a4f76cbc0633f55c6941b303c593a380af118088f1c86073da9a69cbf86"
+    },
+    {
+      "path": "workspace/ai-tools/codex-runtime/.gitignore",
+      "sha256": "4ac8e71b684e9004140c0dcaffb9de1c8b6f027bf648860f0ccfc2d09cff3e91"
+    },
+    {
+      "path": "workspace/ai-tools/codex-runtime/connection-status.json",
+      "sha256": "b3605f2bb2d38f72a6be1e5b8989ff0f436908a0dd922ff29e0e180539e45187"
+    },
+    {
+      "path": "workspace/ai-tools/codex-runtime/installation.json",
+      "sha256": "f989a228e943a060a476c92b175ea6a9f9fac2f86005f079bef4151c3f8d1ae6"
+    },
+    {
+      "path": "workspace/ai-tools/codex-runtime/package-lock.json",
+      "sha256": "d6d2c8aacfedbb4ba0eaf6cd28b5f24efc42c4f8b485bbc3b672ae3f4952b646"
+    },
+    {
+      "path": "workspace/ai-tools/codex-runtime/package.json",
+      "sha256": "9575f356cf7f6de8ccee4b15263c6c94e4de1831e6c0579c33d34b401a70efee"
+    },
+    {
+      "path": "workspace/ai-tools/CODEX-SETUP.md",
+      "sha256": "5bb37968902faa67f9ce851b088107b95da7264c1a107d1f641ce3401d7a170f"
+    },
+    {
+      "path": "workspace/ai-tools/CODEX-START-HERE.md",
+      "sha256": "4fc20bcbe929b491a39dc97fd99fdb59f277e686a7ef3a69e9e641d82bb3a7f2"
+    },
+    {
+      "path": "workspace/ai-tools/context/ci-snapshot.json",
+      "sha256": "f623307e767cdf14d5829ead5edc1609ee5937dc004e09fe232f5cde699c32da"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/build-first-review-in-batches.md",
+      "sha256": "5438f947d469d834600401ae11a0653664bd47136ba11526e069ab022a0fd85a"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/codex-setup.md",
+      "sha256": "daaad05783908dff5cbdd01282863b80d6a33a5614683f9a68c1bc9e80bbeeb7"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/dhanya-project.md",
+      "sha256": "a4ffd0487e2aba9470f95becbc2f2e744fa13af375f2d36f000130e88befc6a3"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/MEMORY.md",
+      "sha256": "08b1245fe121825babed18944fc7f0f0b67baedfc69beb5320264425557bd949"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/model-by-difficulty.md",
+      "sha256": "f7d7614af6ca5f1ebed4a50ee527951ef527a337368e383aaffe86884905d763"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/owner-product-answers.md",
+      "sha256": "f9385e9f4a5b60e720e9a7dbde7227be6d4f8cc268b597aea96644d544d8a20c"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/plain-language-explanations.md",
+      "sha256": "9d92060cf733da6dc2426d00c5d05e6e77f6ec32610becea88368bfc1d1ab57f"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/release-batches.md",
+      "sha256": "dbdc39ee0da3ecc9d45841a3f62886784a75d9d4aad4288dc6b4ad98c4c7d77d"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/save-work-before-limit.md",
+      "sha256": "fb3b518b22b5b1b948fe398a28863c315bf12a3e1514b425917e3f0ddfb880e6"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/skip-telugu-for-now.md",
+      "sha256": "34982c7e445e57084ddb78a407fdf0b936eecf2aca1813f2c659e72dd3e66ea4"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-memory/ui-uses-apple-design-skill.md",
+      "sha256": "3cb75843b5f8d0c73cb7a0fffd4d71f9c772bc8cab1bc646b2b3e23ea0a4866d"
+    },
+    {
+      "path": "workspace/ai-tools/context/claude-session-audit.json",
+      "sha256": "b82c86b6181088daec268b0e71f4864669a0813530b33e6a48befd78c0a142f8"
+    },
+    {
+      "path": "workspace/ai-tools/context/CLAUDE-TO-CODEX.md",
+      "sha256": "44ce7ca7a8baf9d80df03ce4ac604a67184abcdb7035d2ebcbbe836dbe5c4e20"
+    },
+    {
+      "path": "workspace/ai-tools/context/CONTINUE-WORK.md",
+      "sha256": "c51363db1f5cdcd49a02cc679fdde76f7f3c9825c5b21abf498235f09b15f948"
+    },
+    {
+      "path": "workspace/ai-tools/context/demo-delivery-review.md",
+      "sha256": "83db4cd5d18fcfbfd8e31f1e756ed63e5a25d9727dac5958877284555482db73"
+    },
+    {
+      "path": "workspace/ai-tools/context/latest-project-review.md",
+      "sha256": "d9506997137101bba31d4c4a812bbc985133e13211ee48d1d539ce5f354db312"
+    },
+    {
+      "path": "workspace/ai-tools/context/latest-project-status.json",
+      "sha256": "d3a49a942196915b4ed9e64418753d48ebf505fbdbcc3e5be673b485fd10fa26"
+    },
+    {
+      "path": "workspace/ai-tools/context/lead-lock.json",
+      "sha256": "bf39a353f1e95670165104ae43510228813e7a5b6eee24ac63e83e6a539717d4"
+    },
+    {
+      "path": "workspace/ai-tools/context/lead-status.json",
+      "sha256": "eb235a67d642125da5548e0bc7ba813fe3ddd57767a7ed07d90aefaf9c503bdc"
+    },
+    {
+      "path": "workspace/ai-tools/context/NEXT-WORK.md",
+      "sha256": "88491587cce34cc091c35efdd87e993d4fd4db322260bc31d7617c19518ca0bd"
+    },
+    {
+      "path": "workspace/ai-tools/context/tool-sources.json",
+      "sha256": "b7a98126c4038f0351589c02aa9935afa8b325852d33a060a5129631f401b43e"
+    },
+    {
+      "path": "workspace/ai-tools/continue-codex.ps1",
+      "sha256": "a03390f8777243d2d91b2e19be4ff3ffd79fc36ef2874ab3fdcee0152b8a9eb1"
+    },
+    {
+      "path": "workspace/ai-tools/dhanya-status.py",
+      "sha256": "f964cf7e5ff70c14eec149f5ade1452017bd91ce35fe360b9a9c7be702d588be"
+    },
+    {
+      "path": "workspace/ai-tools/install-autosave.ps1",
+      "sha256": "6f627735861d8f0615325740716eb453180686d2fc689b02855f376f97c28d14"
+    },
+    {
+      "path": "workspace/ai-tools/install-codex.py",
+      "sha256": "01ecce626586f460bbf8624001d46b62d10d10c59516122cd5f3c61dafd7aa7e"
+    },
+    {
+      "path": "workspace/ai-tools/install.mjs",
+      "sha256": "93caddbd2eb0fa1285e68852ac43ba84f663014b0cae3556bfd115a590dd750d"
+    },
+    {
+      "path": "workspace/ai-tools/LOCAL-TESTING.md",
+      "sha256": "98e301469be885dbf334a3a6014a95761b54a62a5451ae528653457ceedeb7fc"
+    },
+    {
+      "path": "workspace/ai-tools/mcps/README.md",
+      "sha256": "605235c7bd59f76e1f12b2c2ca02e9eadb1c7122c458c7ad2d91b8c248f44292"
+    },
+    {
+      "path": "workspace/ai-tools/mcps/servers.json",
+      "sha256": "269123af2e7b0d5b21ec86ab8efab9ee4a2532f7a20dd3ae877933519c0f1e17"
+    },
+    {
+      "path": "workspace/ai-tools/probe-codex-http.mjs",
+      "sha256": "5951a508ccfa62796f9c72460e7e53e1d685e130c737cb2e907d8f8c7d17d40b"
+    },
+    {
+      "path": "workspace/ai-tools/progress/owner-needs.json",
+      "sha256": "b823640e2c12c40b7db3e30fc8a19ec967153f10b0f2e8c4aad22010ef21c7ac"
+    },
+    {
+      "path": "workspace/ai-tools/save-work.mjs",
+      "sha256": "0edfee9846e0734bdbd08b210ea7fcdfe975a767f5d8e33563a1929704197f03"
+    },
+    {
+      "path": "workspace/ai-tools/secrets.example.env",
+      "sha256": "bc22970640da07226da10c6d0fc72635290d5c4e3566e129bfccf1652943c135"
+    },
+    {
+      "path": "workspace/ai-tools/set-github-secrets.mjs",
+      "sha256": "153ff14e36cdb6e0cfba7d3835d2100775259dabff2249a36eed6d3664796629"
+    },
+    {
+      "path": "workspace/ai-tools/set-vercel-env.mjs",
+      "sha256": "3e484de4483d36c12109b70ff965433bedf84fa5195801cd6242e7f2ce453414"
+    },
+    {
+      "path": "workspace/ai-tools/setup-new-pc.mjs",
+      "sha256": "fd119825e5783fb471f3f04eb62fa90d72d6bfce9e64a17d6161be1835c92f7d"
+    },
+    {
+      "path": "workspace/ai-tools/skills/dhanya-e2e/SKILL.md",
+      "sha256": "2e0fc18ab5d1f1c6a4c997452906fb170be43087925d165193f9f823dbabc157"
+    },
+    {
+      "path": "workspace/ai-tools/skills/dhanya-workflow/SKILL.md",
+      "sha256": "0889df023b05f1aa043c506575460e23eb4e953b8c15ece28618619038b1c824"
+    },
+    {
+      "path": "workspace/ai-tools/skills/karpathy-guidelines/SKILL.md",
+      "sha256": "e2553e9b66299fbca399804d6c44dfa44b2384b979ca5bf8b933b4916bb3141b"
+    },
+    {
+      "path": "workspace/ai-tools/skills/karpathy-guidelines/SOURCE.txt",
+      "sha256": "2aa076e76c34c5a6bf47fbf48f998b01a30a57ba4087e838fdfe26fc76b08dca"
+    },
+    {
+      "path": "workspace/ai-tools/smoke-codex-tools.mjs",
+      "sha256": "d730784adb94f1351b5084868edbd48d1466c2642e2f1c08ce52992b10421bbd"
+    },
+    {
+      "path": "workspace/ai-tools/sync-claude-context.py",
+      "sha256": "3c86c16acfce571cb8053a64a47255173804aa371d0f7ca37bdf6ea1da8b766d"
+    },
+    {
+      "path": "workspace/ai-tools/validate-codex-setup.py",
+      "sha256": "8c623b6c3e0b618b29e4229aab65a5ef6fbe39e3cdd8273e29c31cc5b138bb60"
+    },
+    {
+      "path": "workspace/ai-tools/validate-codex-skill-compat.cjs",
+      "sha256": "3a9e81bf7eaa03d10a431e47bb3c468ff04361badec10c20c0c9e4dac1c67790"
+    },
+    {
+      "path": "workspace/CLAUDE.md",
+      "sha256": "1d66c541a5c6b1a4df9e75a6a49b7104be925a90ba40ab8b6b56522e5f465c4a"
+    },
+    {
+      "path": "workspace/skills-lock.json",
+      "sha256": "3043ce2aa11b7d9c978ff21be6213ebcc8baa7d93ec01c3d3d0e131efb3546b4"
+    }
+  ]
+}

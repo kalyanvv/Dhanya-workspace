@@ -20,9 +20,14 @@ Configured on 2026-11-05 for the installed Codex CLI/VS Code runtime
 
 ## How to activate it
 
-Completely restart VS Code, open the `workspace` folder, and start a new Codex
-conversation. Existing conversations may retain their original tool inventory.
-The CLI and IDE share `C:/Users/rupen/.codex/config.toml`.
+While the owner's no-credential-file rule is active, start from PowerShell with
+`& .\ai-tools\continue-codex.ps1`. It disables the 13 Dhanya MCP launchers for that
+session, avoiding their automatic env-file reads. Skills and agent roles remain
+available. `-Preview` prints only arguments and does not start Codex.
+
+The CLI and IDE share `C:/Users/rupen/.codex/config.toml`. Normal new sessions can
+automatically launch its enabled MCPs, so use the wrapper while that restriction
+holds. Existing conversations may retain their original tool inventory.
 
 Skill discovery uses `C:/Users/rupen/.agents/skills`. Each installed folder is a
 directory junction to a normalized copy in `ai-tools/codex-skills`. The installer
@@ -32,7 +37,7 @@ workspace. These are user-scoped skills and therefore also available when
 working in the external `dhanya-wt` checkouts.
 
 Project agent registrations live in `workspace/.codex/config.toml`, the outer
-`Projects/.codex/config.toml`, and each of the 42 existing application checkouts.
+`Projects/.codex/config.toml`, and each of the 50 existing application checkouts.
 The checkout-local generated configuration is excluded from application commits.
 Rerun the installer after adding a worktree. Each checkout keeps its own branch
 and plan; shared tools/context do not make all checkouts the same version.
@@ -78,6 +83,12 @@ Connection setup and verification do not send emails, deploy sites, or modify cl
 databases. Having a connector available is not a request to perform those actions.
 
 ## Reinstall and check
+
+To push only the current shared workspace tooling and context to
+`kalyanvv/Dhanya-workspace`, run `node ai-tools/save-work.mjs --workspace-only`.
+This mode does not push application branches or read the central secrets file.
+It verifies copied source hashes, scans the staged snapshot for token-like text,
+and writes `WORKSPACE-SNAPSHOT.json` in the backup repository.
 
 From `workspace/`:
 

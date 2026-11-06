@@ -1,0 +1,117 @@
+﻿{
+    "observedAt":  "2026-11-06T17:03:41.0429667Z",
+    "repository":  "kalyanvv/Dhanya-sandbox",
+    "mainSha":  "7de076d10c0a348da2d866fc90b04f645b7caaa7",
+    "mergedRelease":  {
+                          "headRefOid":  "62055304cfd6c9706f7790985873e048e9ebb5b3",
+                          "mergeCommit":  {
+                                              "oid":  "5570afa1bec9f9169423ad4da9614d751de5827b"
+                                          },
+                          "mergedAt":  "2026-11-06T15:59:51Z",
+                          "state":  "MERGED",
+                          "url":  "https://github.com/kalyanvv/Dhanya-sandbox/pull/54"
+                      },
+    "mainGate":  {
+                     "conclusion":  "success",
+                     "headSha":  "7de076d10c0a348da2d866fc90b04f645b7caaa7",
+                     "status":  "completed",
+                     "url":  "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42255828041"
+                 },
+    "stagingDeployment":  {
+                              "conclusion":  "success",
+                              "headSha":  "7de076d10c0a348da2d866fc90b04f645b7caaa7",
+                              "status":  "completed",
+                              "url":  "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42257383848"
+                          },
+    "commitStatuses":  [
+                           {
+                               "context":  "staging-verified",
+                               "state":  "success",
+                               "targetUrl":  "https://dhanya-staging.vercel.app"
+                           }
+                       ],
+    "health":  [
+                   {
+                       "endpoint":  "/api/health",
+                       "status":  200,
+                       "body":  {
+                                    "data":  {
+                                                 "status":  "ok"
+                                             }
+                                }
+                   },
+                   {
+                       "endpoint":  "/api/health/deep",
+                       "status":  200,
+                       "body":  {
+                                    "data":  {
+                                                 "status":  "ok",
+                                                 "db":  "ok"
+                                             }
+                                }
+                   },
+                   {
+                       "endpoint":  "/sign-in",
+                       "status":  200
+                   }
+               ],
+    "nightly":  [
+                    {
+                        "conclusion":  "cancelled",
+                        "databaseId":  42144326059,
+                        "headSha":  "e02c24d2919f6a15a4fd67235c2eab214f7e372a",
+                        "status":  "completed",
+                        "url":  "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42144326059"
+                    },
+                    {
+                        "conclusion":  "success",
+                        "databaseId":  42034921270,
+                        "headSha":  "d42cc78d6a1b49ad9b0e27d065d9a9bb54ada4da",
+                        "status":  "completed",
+                        "url":  "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/42034921270"
+                    },
+                    {
+                        "conclusion":  "failure",
+                        "databaseId":  41990749934,
+                        "headSha":  "a6095c36f7c5b93a1553a7a62d655ee7fa030a93",
+                        "status":  "completed",
+                        "url":  "https://github.com/kalyanvv/Dhanya-sandbox/actions/runs/41990749934"
+                    }
+                ],
+    "openPullRequests":  [
+                             {
+                                 "headRefName":  "dependabot/npm_and_yarn/multi-b134620c3e",
+                                 "headRefOid":  "24e6ea74e812b8299ff0d69e93157162cb3de438",
+                                 "number":  21,
+                                 "title":  "chore(deps): Bump glob and @sentry/node",
+                                 "url":  "https://github.com/kalyanvv/Dhanya-sandbox/pull/21"
+                             }
+                         ],
+    "scope":  "Read-only GitHub/source/health review. No new workflows, production access, credential reads, or real-user sign-in. Not an independent security or design certification.",
+    "latestChange":  {
+                         "headRefOid":  "f8824b9b0ae5e8a7cba96501e760b5022a77bd47",
+                         "mergeCommit":  {
+                                             "oid":  "7de076d10c0a348da2d866fc90b04f645b7caaa7"
+                                         },
+                         "mergedAt":  "2026-11-06T16:48:41Z",
+                         "state":  "MERGED",
+                         "url":  "https://github.com/kalyanvv/Dhanya-sandbox/pull/55"
+                     },
+    "demoSeed":  {
+                     "run":  42257832599,
+                     "applied":  true,
+                     "counts":  {
+                                    "products":  4,
+                                    "rejected":  1,
+                                    "accepted":  3,
+                                    "orders":  7,
+                                    "pending":  2,
+                                    "cancelled":  1
+                                },
+                     "conclusion":  "success",
+                     "realAccountEmailsStored":  false,
+                     "booksSeeded":  false,
+                     "alreadySeeded":  false,
+                     "staffIncluded":  true
+                 }
+}

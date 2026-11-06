@@ -35,7 +35,9 @@ run('npm', ['ci'], join(target, 'sandbox'));
 console.log(`
 Done. Still to do by hand:
  1. Create ~/.dhanya/.env from ai-tools/secrets.example.env and paste your tokens (never commit it).
- 2. Install Docker Desktop, then in sandbox: npm run db:up, npm run db:create-app-role, npm run db:migrate.
+ 2. Install Docker Desktop, then in sandbox: npm run db:up, node scripts/create-app-role.mjs --local, npm run db:migrate.
  3. Reinstall BMad/ECC/apple-design with the commands in THIRD-PARTY.md; install the progress mod from mods/.
- 4. gh auth login (GitHub), then open the workspace folder in VS Code with Claude Code.
+ 4. For Codex, from workspace: npm ci --prefix ai-tools/codex-runtime, py -3.11 -m pip install PyYAML,
+    node ai-tools/install.mjs, py -3.11 ai-tools/install-codex.py, node ai-tools/check-codex-mcps.mjs.
+ 5. gh auth login (GitHub), then open the workspace folder in VS Code and start a new Claude or Codex session.
 `);

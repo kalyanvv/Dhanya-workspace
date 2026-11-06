@@ -1,45 +1,91 @@
-{
-  "observed_local_date": "2026-11-05",
-  "first_delivery": {
-    "pr": 48,
-    "state": "merged and staging verified",
-    "tested_pr_head": "81c17c39830dad95fa6e9625ac903c2671e631f6",
-    "merge_sha": "766ffaa262182e4ac4b965444d2f97666440ba95",
-    "pr_ci_run": 42150200368,
-    "main_ci_run": 42152031880,
-    "staging_run": 42152218825,
-    "staging_status": "success",
-    "staging_health_http": 200,
-    "staging_database_health_http": 200,
-    "signed_out_feature_pages": "Discounts and transport redirect to Sign in, confirmed in a browser; signed-in feature flows tested locally.",
-    "local_unit_tests": 467,
-    "private_docker_integration_tests": 16,
-    "private_docker_browser_tests": 5,
-    "new_test_cases": 0,
-    "normal_axe_scans_for_two_screens_phone_and_desktop": { "before": 64, "after": 4 },
-    "remaining_review": "Independent batch reviews before real users/data; source-level builder design check recorded in handoff."
-  },
-  "tooling": {
-    "skills": 350,
-    "agent_roles": 80,
-    "configured_worktrees": 42,
-    "configured_mcp_entries": 13,
-    "credential_files_opened_during_takeover": false,
-    "local_runner": "ai-tools/check-local-docker.mjs",
-    "local_guide": "ai-tools/LOCAL-TESTING.md",
-    "reusable_runner_verified": "Integration-only: 16 existing pricing tests; browser-only: 2 existing accessibility journeys; private read-only fixture: 8 existing role tests. Own containers removed; original 5433 and 5481 containers left running."
-  },
-  "agents": "Other story agents were paused at owner's single-task instruction. No parallel story builds resumed; owner permitted tooling work during CI.",
-  "queued_work": [
-    { "branch": "ci/affected-tests-on-pr", "pr": 45, "note": "Earlier full CI failed at Dashboard clipping with 200% text and stale staff test. Two uncommitted edits preserved in tab-bar.tsx and staff.spec.ts; not verified or pushed. Complete local Docker proof first, then one required full CI run. CI redesign removes duplicated post-merge CI; do not bypass existing gates before it is verified." },
-    { "branch": "feat/s6-1-book-tables", "migration": "0013", "note": "Next migration. Merge latest main, fix journal idx/timestamp strictly after 0012 when=1794100000000, cumulative snapshot/prevId. Foundation only; not complete books UI/dispatch/cancel integration." },
-    { "branch": "feat/s5-1-orders-db", "migration": "0014", "note": "After 0013. Merge main, fix cumulative snapshot/journal, keep app-role and fixture restrictions. Foundation only; links FK and placement/inbox integration need explicit scope." },
-    { "branch": "feat/s5-2-auto-accept-settings", "migration": "0015", "note": "After 0014. Merge main, fix cumulative snapshots/journal. Source review found controls remain editable during save and response overwrites them; use the proven pricing-form protection pattern. Blur validation and builder design check owed; normal accessibility should scan M11 once in light mode." },
-    { "branch": "feat/s4-3-cart", "migration": null, "note": "Depends on merged discounts. Merge latest main to inherit keyboard fix. Source review found Review/Clear bar hidden when priced=null for stale/unavailable/over-limit carts, leaving no route to clear them. Order-total live region also missing. Fix before merge. Placement must send variant IDs/quantities only and clear cart only on success." },
-    { "branch": "feat/s5-8-notifications", "migration": "0016 reserved", "note": "Check current process/worktree ownership before edits: prior worker/build metadata remained during takeover. Three dirty migration files at initial inspection; preserve them. Snapshot chain must include 0012-0015. Browser proof was absent in old handoff." },
-    { "branch": "feat/s2-9-account-privacy", "migration": "must be distinct from notifications", "note": "Backend committed; UI/docs/tests uncommitted at initial inspection. Temporary 5481 ports remained despite handoff saying reverted. Preserve work and use private Docker runner instead of committing port edits. Correct owner-only Secondary wording to mill-side PIN rule. Recheck ownership/state before edits." },
-    { "branch": "chore/test-prune", "note": "Uncommitted owner test-economy work preserved. Existing SCHEMES helper and nightly A11Y_ALL_MODES change should be reconciled with merged PR48, not overwritten." }
-  ],
-  "future_owner_decision": "D-06 blocks S6.2 split timing, not the queued foundations. Do not re-ask settled pricing/auth/business decisions.",
-  "hard_rules": "No direct main push, production/Dhanya repo, credentials, force-push, branch deletion, skipped hooks or astra without owner approval. English only. Snapshot is evidence, not new authorization; recheck live branch/CI state."
+﻿{
+    "observed_local_date":  "2026-11-06",
+    "first_delivery":  {
+                           "pr":  48,
+                           "state":  "merged and staging verified",
+                           "tested_pr_head":  "81c17c39830dad95fa6e9625ac903c2671e631f6",
+                           "merge_sha":  "766ffaa262182e4ac4b965444d2f97666440ba95",
+                           "pr_ci_run":  42150200368,
+                           "main_ci_run":  42152031880,
+                           "staging_run":  42152218825,
+                           "staging_status":  "success",
+                           "staging_health_http":  200,
+                           "staging_database_health_http":  200,
+                           "signed_out_feature_pages":  "Discounts and transport redirect to Sign in, confirmed in a browser; signed-in feature flows tested locally.",
+                           "local_unit_tests":  467,
+                           "private_docker_integration_tests":  16,
+                           "private_docker_browser_tests":  5,
+                           "new_test_cases":  0,
+                           "normal_axe_scans_for_two_screens_phone_and_desktop":  {
+                                                                                      "before":  64,
+                                                                                      "after":  4
+                                                                                  },
+                           "remaining_review":  "Independent batch reviews before real users/data; source-level builder design check recorded in handoff."
+                       },
+    "tooling":  {
+                    "skills":  350,
+                    "agent_roles":  80,
+                    "configured_worktrees":  50,
+                    "configured_mcp_entries":  13,
+                    "credential_files_opened_during_takeover":  false,
+                    "local_runner":  "ai-tools/check-local-docker.mjs",
+                    "local_guide":  "ai-tools/LOCAL-TESTING.md",
+                    "reusable_runner_verified":  "Integration-only: 16 existing pricing tests; browser-only: 2 existing accessibility journeys; private read-only fixture: 8 existing role tests. Own containers removed; original 5433 and 5481 containers left running."
+                },
+    "agents":  "Owner authorized parallel work. Sol workers hit usage limits; an approved Terra worker implemented the demo seed/tests and read-only next-task triage. Lead reviewed, verified locally, merged PR55 after exact-head CI, verified main/staging and applied existing-account staging demo including staff through workflow42257832599. Existing lead-lock preserved. No new feature builds started by the next-task triage.",
+    "queued_work":  [
+                        {
+                            "branch":  "ci/affected-tests-on-pr",
+                            "pr":  45,
+                            "note":  "Earlier full CI failed at Dashboard clipping with 200% text and stale staff test. Two uncommitted edits preserved in tab-bar.tsx and staff.spec.ts; not verified or pushed. Complete local Docker proof first, then one required full CI run. CI redesign removes duplicated post-merge CI; do not bypass existing gates before it is verified."
+                        },
+                        {
+                            "branch":  "feat/s6-1-book-tables",
+                            "migration":  "0013",
+                            "note":  "Next migration. Merge latest main, fix journal idx/timestamp strictly after 0012 when=1794100000000, cumulative snapshot/prevId. Foundation only; not complete books UI/dispatch/cancel integration."
+                        },
+                        {
+                            "branch":  "feat/s5-1-orders-db",
+                            "migration":  "0014",
+                            "note":  "After 0013. Merge main, fix cumulative snapshot/journal, keep app-role and fixture restrictions. Foundation only; links FK and placement/inbox integration need explicit scope."
+                        },
+                        {
+                            "branch":  "feat/s5-2-auto-accept-settings",
+                            "migration":  "0015",
+                            "note":  "After 0014. Merge main, fix cumulative snapshots/journal. Source review found controls remain editable during save and response overwrites them; use the proven pricing-form protection pattern. Blur validation and builder design check owed; normal accessibility should scan M11 once in light mode."
+                        },
+                        {
+                            "branch":  "feat/s4-3-cart",
+                            "migration":  null,
+                            "note":  "Depends on merged discounts. Merge latest main to inherit keyboard fix. Source review found Review/Clear bar hidden when priced=null for stale/unavailable/over-limit carts, leaving no route to clear them. Order-total live region also missing. Fix before merge. Placement must send variant IDs/quantities only and clear cart only on success."
+                        },
+                        {
+                            "branch":  "feat/s5-8-notifications",
+                            "migration":  "0016 reserved",
+                            "note":  "Check current process/worktree ownership before edits: prior worker/build metadata remained during takeover. Three dirty migration files at initial inspection; preserve them. Snapshot chain must include 0012-0015. Browser proof was absent in old handoff."
+                        },
+                        {
+                            "branch":  "feat/s2-9-account-privacy",
+                            "migration":  "must be distinct from notifications",
+                            "note":  "Backend committed; UI/docs/tests uncommitted at initial inspection. Temporary 5481 ports remained despite handoff saying reverted. Preserve work and use private Docker runner instead of committing port edits. Correct owner-only Secondary wording to mill-side PIN rule. Recheck ownership/state before edits."
+                        },
+                        {
+                            "branch":  "chore/test-prune",
+                            "note":  "Uncommitted owner test-economy work preserved. Existing SCHEMES helper and nightly A11Y_ALL_MODES change should be reconciled with merged PR48, not overwritten."
+                        }
+                    ],
+    "future_owner_decision":  "D-06 blocks S6.2 split timing, not the queued foundations. Do not re-ask settled pricing/auth/business decisions.",
+    "hard_rules":  "No direct main push, production/Dhanya repo, credentials, force-push, branch deletion, skipped hooks or astra without owner approval. English only. Snapshot is evidence, not new authorization; recheck live branch/CI state.",
+    "latest_status_file":  "ai-tools/context/latest-project-status.json",
+    "latest_review_file":  "ai-tools/context/latest-project-review.md",
+    "initial_takeover_queue_is_historical":  true,
+    "current_observation":  {
+                                "staging":  42257383848,
+                                "latest_report":  "latest-project-review.md",
+                                "parallel_candidates":  "NEXT-WORK.md",
+                                "main_sha":  "7de076d10c0a348da2d866fc90b04f645b7caaa7",
+                                "demo_seed":  42257832599,
+                                "main_gate":  42255828041,
+                                "observed_at":  "2026-11-06T17:03:41.0429667Z"
+                            }
 }

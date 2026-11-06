@@ -2,8 +2,30 @@
 
 Plain steps. Nothing secret is in this file.
 
+## Current continuation entry point
+
+Read `ai-tools/context/CONTINUE-WORK.md` and
+`ai-tools/context/latest-project-review.md` before using the older starter prompt
+below. They include the R2/R3 release state, local Docker workflow, Karpathy and
+other skill/agent guidance, and the current credential/merge restrictions.
+
+From PowerShell on this PC (Codex is on PATH):
+
+```powershell
+& "C:\Users\rupen\OneDrive\Documents\Staffing\Personal\Projects\workspace\ai-tools\continue-codex.ps1"
+```
+
+The wrapper starts Terra and disables the 13 credential-reading MCP launchers for
+that session. Skills and agent roles remain available; use authenticated `gh` and
+local Docker. It never opens credential files. Add `-Preview` to inspect arguments
+without starting Codex, or `-Model gpt-6.1-sol` to select another approved model.
+In an existing Codex or Claude chat, ask it to read `CONTINUE-WORK.md` and verify
+live state before continuing authorized work. Sol, Terra and Luna are approved. Terra completed the demo seed after Sol
+hit its usage limit. If an approved model is exhausted, use another approved model
+when available or report the blocker; Astra still requires the owner's approval.
+
 ## 1. Open the right folder
-Open VS Code on `C:\Users\rupen\OneDrive\Documents\Staffing\Personal\Projects\workspace` (not a worktree). Start a **new** Codex conversation (old ones keep an old tool list). Codex already reads `AGENTS.md` / `CLAUDE.md` there and has the Dhanya tools (GitHub, Playwright, docs and more; see `CODEX-SETUP.md`).
+Open VS Code on `C:\Users\rupen\OneDrive\Documents\Staffing\Personal\Projects\workspace` (not a worktree). Use the PowerShell wrapper above for a new lead session while credential-file access is forbidden. Codex reads `AGENTS.md` / `CLAUDE.md` there and discovers the installed skills/roles. MCPs remain configured for future authorized use; see `CODEX-SETUP.md`.
 
 ## 2. Paste this as the first message
 

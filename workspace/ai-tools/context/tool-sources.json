@@ -1,0 +1,26 @@
+{
+  "observedAt": "2026-11-06T16:08:13.566Z",
+  "libraries": [
+    {
+      "folder": "ai-tools/ECC",
+      "url": "https://github.com/affaan-m/ECC.git",
+      "commit": "b38be6a7f6350964d59328b52f0624e1d1d552d1"
+    },
+    {
+      "folder": "ai-tools/apple-design-skill",
+      "url": "https://github.com/dickwu/apple-design-skill.git",
+      "commit": "ff4ebddf0488598723a82bfdce1afb04de0b1c44"
+    },
+    {
+      "folder": "ai-tools/BMAD-METHOD",
+      "url": "https://github.com/bmad-code-org/BMAD-METHOD.git",
+      "commit": "022be9314e4facd16826104a9f8033e1c5ed4fdc"
+    },
+    {
+      "folder": "ai-tools/andrej-karpathy-skills",
+      "url": "https://github.com/multica-ai/andrej-karpathy-skills.git",
+      "commit": "2c606141936f1eeef17fa3043a72095b4765b9c2"
+    }
+  ],
+  "notes": "Third-party source clones are not uploaded. This records the exact local revisions used by the workspace."
+}

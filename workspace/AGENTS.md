@@ -54,6 +54,9 @@ If `uv` is not visible in an older terminal, use `py -3.11 -m uv`.
 
 Setup guide: `ai-tools/CODEX-SETUP.md`. Reinstall with
 `py -3.11 ai-tools/install-codex.py` after adding or changing agents, skills, or
-connector definitions. Run `node ai-tools/check-codex-mcps.mjs` to check connections.
+connector definitions. Validate with `py -3.11 ai-tools/validate-codex-setup.py`.
+Start a new lead session with `& .\ai-tools\continue-codex.ps1` so credential-reading
+MCPs stay off for that session. Do not run connector probes while the owner's
+no-credential-file rule is active.
 
 Taking over as lead: read sandbox/docs/plan/handoffs/LEAD-HANDOFF.md first.
