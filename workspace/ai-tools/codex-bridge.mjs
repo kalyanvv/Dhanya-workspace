@@ -45,7 +45,9 @@ Hard rules, in addition to the repository's CLAUDE.md and AGENTS.md:
 - Work ONLY inside the current working directory (a git worktree on a feature branch). Never touch the main branch, never run git push, never delete branches, never rewrite history.
 - Never read, print or copy the secrets file C:\\Users\\rupen\\.dhanya\\.env, any .env file with real values, or any token. Never connect to Neon, Vercel or other cloud services.
 - First read ai-tools/agents/known-failures.md (in the workspace folder next to the sandbox repository) and sandbox docs/plan/handoffs/README.md, then follow them: plain-language reports, tests first, token-saving rules, English only.
-- Commit your work in small commits in this worktree (end each commit message with: Co-Authored-By: Codex <noreply@openai.com>).
+- Do NOT try to commit or run git write commands: the sandbox protects the main repository, so the lead commits your finished files afterwards. Just leave your finished changes in the working folder (new and edited files).
+- Windows line endings: write files with LF line endings if you can; the lead normalises them.
+- If a check cannot run in your sandbox (browser tests, drizzle-kit generate), say exactly which one in your report so the lead runs it.
 - When finished, write docs/plan/handoffs/<story>.md as the handoff README describes and finish with a SHORT plain-language report: what you built, how to check it, test results with real numbers, what you could not verify, owner questions.
 `;
 

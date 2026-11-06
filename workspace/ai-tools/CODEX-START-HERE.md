@@ -24,6 +24,9 @@ Open VS Code on `C:\Users\rupen\OneDrive\Documents\Staffing\Personal\Projects\wo
 - **Visual baselines** only in the Linux container (`npm run test:visual:update`).
 - **No production** until the owner says so. Production needs a green `full-suite` status on the exact commit (nightly workflow) plus `staging-verified`.
 
+## 3b. Tests: keep them few
+Read the "Test economy" section of `ai-tools/agents/known-failures.md`: the smallest set of tests that proves each requirement; axe in light mode only in the normal suite; no per-colour-mode or per-state copies.
+
 ## 4. Handing work to Codex from Claude later
 Claude starts Codex runs with `node ai-tools/codex-bridge.mjs run ...` (see LEAD-HANDOFF.md). The owner can also run any story by hand in the Codex panel with the same prompt shape: story id, the spec files to read, the worktree path, the migration number, "do not push", "write the handoff file".
 

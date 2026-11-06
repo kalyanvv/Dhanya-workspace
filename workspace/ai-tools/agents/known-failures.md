@@ -63,3 +63,11 @@ at the bottom (symptom, cause, fix) and mention it in your report.
 - **Heredocs with apostrophes in text** (for example "Today's rate") break the Bash call with "unexpected EOF". Use the Write tool, then a small node script file.
 - **`export` of the private test database variables does not carry to the next Bash call.** Each Bash call starts fresh, so a later vitest run silently used port 5433 (the shared database) for cleanSlate and the schema reset while the app login used the private port. Put the `export TEST_DATABASE_URL=... APP_TEST_DATABASE_URL=... DHANYA_DEV_READONLY_URL=...` in the SAME command as every vitest run (S5.1).
 - **drizzle-kit generate with other branches pending:** it numbers by position (here 0010). Rename the sql file, the journal tag and the new snapshot to your agreed number (S5.1 used 0014), set a later `when` in the journal, and check the new snapshot prevId is the snapshot of the previous migration.
+
+## Test economy (owner, 2026-11-06): few, necessary tests only
+- Write the SMALLEST set of tests that proves each requirement (the test IDs in docs/plan/05-test-strategy.md). One test per behaviour; do not repeat the same check for every colour mode, both sides, three screen sizes and every state.
+- **Axe/accessibility:** one colour mode (light) in the normal suite. Contrast in all four themes is already proven by `npm run tokens:check`. Other modes only in the nightly full run (set `A11Y_ALL_MODES=1`). One axe check per screen, not per state.
+- **Visual screenshots:** light only for a screen unless dark is the point; never the Telugu variant (Telugu is skipped). They run only in the nightly Linux job.
+- **Browser tests:** a journey test covers a whole flow; do not add a separate test per button. Put logic in unit tests (fast) and keep browser tests for what only a browser can show.
+- **Integration tests:** database rules and permissions, one assertion group per rule; no copies of what a unit test already proves.
+- Before adding a test, search for an existing one that already covers it. When you add tests, say in your report how many you added and why each is needed.
