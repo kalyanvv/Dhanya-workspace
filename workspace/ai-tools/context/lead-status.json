@@ -23,9 +23,9 @@
                            "remaining_review":  "Independent batch reviews before real users/data; source-level builder design check recorded in handoff."
                        },
     "tooling":  {
-                    "skills":  350,
+                    "skills":  351,
                     "agent_roles":  80,
-                    "configured_worktrees":  50,
+                    "configured_worktrees":  51,
                     "configured_mcp_entries":  13,
                     "credential_files_opened_during_takeover":  false,
                     "local_runner":  "ai-tools/check-local-docker.mjs",
@@ -87,5 +87,24 @@
                                 "demo_seed":  42257832599,
                                 "main_gate":  42255828041,
                                 "observed_at":  "2026-11-06T17:03:41.0429667Z"
-                            }
+                            },
+    "active_task":  {
+                        "mode":  "serial",
+                        "next_stories":  [
+                                             "S8.2",
+                                             "S8.3"
+                                         ],
+                        "current_branch":  "feat/s8-2-dashboard-screen",
+                        "release":  "Build three linked dashboard stories sequentially, then one release with CI and staging verification",
+                        "worktree":  "C:/Users/rupen/dhanya-wt/s8-2-dashboard",
+                        "current_story":  "S8.2",
+                        "task":  "Dashboard",
+                        "updated_at":  "2026-11-06T17:18:49.7884566Z",
+                        "owner_instruction":  "Continue remaining tasks one by one",
+                        "completed_local":  {
+                                                "checks":  "npm run check; 60 integration/route/permission tests; final 2 dashboard tests after added assertions",
+                                                "pushed":  false,
+                                                "S8_1":  "54f51504bb411453a9d1bb529ffe453e02526954"
+                                            }
+                    }
 }

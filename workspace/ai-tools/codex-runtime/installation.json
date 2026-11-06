@@ -14,7 +14,7 @@
     "vercel",
     "openai-docs"
   ],
-  "skill_count": 350,
+  "skill_count": 351,
   "builtin_skills_preserved": [],
   "agent_count": 80,
   "secrets_file": "C:\\Users\\rupen\\.dhanya\\.env",
@@ -371,7 +371,8 @@
     "karpathy-guidelines": "C:\\Users\\rupen\\OneDrive\\Documents\\Staffing\\Personal\\Projects\\workspace\\ai-tools\\skills\\karpathy-guidelines",
     "neon": "C:\\Users\\rupen\\OneDrive\\Documents\\Staffing\\Personal\\Projects\\workspace\\.claude\\skills\\neon",
     "neon-postgres": "C:\\Users\\rupen\\OneDrive\\Documents\\Staffing\\Personal\\Projects\\workspace\\.claude\\skills\\neon-postgres",
-    "ecc-conventions": "C:\\Users\\rupen\\OneDrive\\Documents\\Staffing\\Personal\\Projects\\workspace\\ai-tools\\ECC\\.agents\\skills\\ecc-conventions"
+    "ecc-conventions": "C:\\Users\\rupen\\OneDrive\\Documents\\Staffing\\Personal\\Projects\\workspace\\ai-tools\\ECC\\.agents\\skills\\ecc-conventions",
+    "dataviz": "C:\\Users\\rupen\\OneDrive\\Documents\\Staffing\\Personal\\Projects\\workspace\\ai-tools\\skills\\dataviz"
   },
   "bmad_personas": [
     "mary",
@@ -429,6 +430,7 @@
     "C:\\Users\\rupen\\dhanya-wt\\s6-1",
     "C:\\Users\\rupen\\dhanya-wt\\s67-domain",
     "C:\\Users\\rupen\\dhanya-wt\\s7-1",
+    "C:\\Users\\rupen\\dhanya-wt\\s8-1-dashboard",
     "C:\\Users\\rupen\\dhanya-wt\\smoke-fix",
     "C:\\Users\\rupen\\dhanya-wt\\test-prune"
   ]
