@@ -1,5 +1,7 @@
 # Starting a new Codex session on Dhanya (pick up where Claude left off)
 
+**Newest and most complete version of the first prompt: `ai-tools/HANDOFF-PROMPT.md` (current state, how to develop, rules, next stories). Use that one.**
+
 Plain steps. Nothing secret is in this file.
 
 ## Current continuation entry point

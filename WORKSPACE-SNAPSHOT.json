@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-11-06T19:25:20.933Z",
+  "observedAt": "2026-11-06T19:28:46.481Z",
   "repository": "kalyanvv/Dhanya-workspace",
   "files": [
     {
@@ -132,7 +132,7 @@
     },
     {
       "path": "workspace/ai-tools/CODEX-START-HERE.md",
-      "sha256": "4fc20bcbe929b491a39dc97fd99fdb59f277e686a7ef3a69e9e641d82bb3a7f2"
+      "sha256": "a2eebb760c6d6fc371eb67ba115d0c7cb322c47eaa263ef29db95bcc911af824"
     },
     {
       "path": "workspace/ai-tools/context/ci-snapshot.json",
@@ -208,7 +208,7 @@
     },
     {
       "path": "workspace/ai-tools/context/lead-lock.json",
-      "sha256": "bf39a353f1e95670165104ae43510228813e7a5b6eee24ac63e83e6a539717d4"
+      "sha256": "31920ac88efcdce2740d56aacc2acb3b7df3a2be52b3a70de1a34d447bf2be67"
     },
     {
       "path": "workspace/ai-tools/context/lead-status.json",
@@ -229,6 +229,10 @@
     {
       "path": "workspace/ai-tools/dhanya-status.py",
       "sha256": "f964cf7e5ff70c14eec149f5ade1452017bd91ce35fe360b9a9c7be702d588be"
+    },
+    {
+      "path": "workspace/ai-tools/HANDOFF-PROMPT.md",
+      "sha256": "90c3456ede2544d25a73995367d53fd152d2d930d3d51966f5101a2362f89ffa"
     },
     {
       "path": "workspace/ai-tools/install-autosave.ps1",
